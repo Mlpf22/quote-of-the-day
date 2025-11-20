@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Citation du Jour</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1a1a1a;
+            --text-secondary: #666666;
+            --accent: #000000;
+            --border: #e5e5e5;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER & TIMER --- */
+        header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            box-sizing: border-box;
+        }
+
+        .brand {
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .timer-badge {
+            font-size: 0.9rem;
+            background: #f4f4f4;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-variant-numeric: tabular-nums; /* Chiffres fixes pour pas que ça bouge */
+            color: var(--text-secondary);
+        }
+
+        /* --- MAIN QUOTE SECTION --- */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 700px;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            line-height: 1.3;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: black;
+            color: white;
+            border-color: black;
+        }
+
+        /* --- VIDEO SECTION --- */
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            background: #000;
+            aspect-ratio: 16/9;
+            margin-bottom: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Placeholder en attendant ta vidéo */
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-direction: column;
+        }
+
+        /* --- VOTING SECTION --- */
+        .voting-section {
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 20px;
+            background: #fafafa;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            box-sizing: border-box;
+        }
+
+        .voting-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .candidate {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .candidate:hover {
+            transform: translateY(-2px);
+            border-color: #e5e5e5;
+        }
+
+        .candidate.voted {
+            border-color: black;
+        }
+
+        .candidate-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Barres de progression (Fake pour l'instant) */
+        .progress-bg {
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: black;
+            border-radius: 2px;
+            width: 0%; /* Sera changé par JS */
+            transition: width 1s ease-out;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand">Q.O.T.D.</div>
+    <div class="timer-badge" id="countdown">Prochaine quote: --:--:--</div>
+</header>
+
+<section class="hero-section">
+    <div class="quote-text" id="main-quote">
+        "La seule façon de faire du bon travail est d'aimer ce que vous faites."
+    </div>
+    <div class="quote-author" id="main-author">Steve Jobs</div>
+
+    <div class="actions">
+        <button class="btn" onclick="copyQuote()">Copier</button>
+        <button class="btn" onclick="shareTwitter()">Partager sur X</button>
+    </div>
+</section>
+
+<div class="video-container">
+    <div class="video-placeholder">
+        <p>[ Emplacement Vidéo IA ]</p>
+        <small>L'avatar présentera la citation ici.</small>
+    </div>
+</div>
+
+<section class="voting-section">
+    <div class="voting-title">Votez pour la citation de demain (Reset: 10h00)</div>
+
+    <div class="candidate" onclick="vote(1)">
+        <div class="candidate-text">"Ils ne savaient pas que c'était impossible, alors ils l'ont fait."</div>
+        <small>- Mark Twain</small>
+        <div class="progress-bg"><div class="progress-fill" id="prog-1"></div></div>
+    </div>
+
+    <div class="candidate" onclick="vote(2)">
+        <div class="candidate-text">"Le succès, c'est d'aller d'échec en échec sans perdre son enthousiasme."</div>
+        <small>- Winston Churchill</small>
+        <div class="progress-bg"><div class="progress-fill" id="prog-2"></div></div>
+    </div>
+
+    <div class="candidate" onclick="vote(3)">
+        <div class="candidate-text">"La simplicité est la sophistication suprême."</div>
+        <small>- Léonard de Vinci</small>
+        <div class="progress-bg"><div class="progress-fill" id="prog-3"></div></div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 Quote of the Day. Tous droits réservés.
+</footer>
+
+<script>
+    // --- 1. LE TIMER (Jusqu'à 10h00 demain) ---
+    function updateTimer() {
+        const now = new Date();
+        let target = new Date();
+
+        // On règle l'heure cible à 10h00
+        target.setHours(10, 0, 0, 0);
+
+        // Si 10h est déjà passé aujourd'hui, on vise 10h demain
+        if (now > target) {
+            target.setDate(target.getDate() + 1);
+        }
+
+        const diff = target - now;
+
+        // Conversion en heures/minutes/secondes
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerText =
+            `Prochaine: ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateTimer, 1000); // Met à jour chaque seconde
+    updateTimer(); // Lance tout de suite
+
+    // --- 2. FONCTIONS BOUTONS ---
+    function copyQuote() {
+        const text = document.getElementById("main-quote").innerText + " " + document.getElementById("main-author").innerText;
+        navigator.clipboard.writeText(text);
+        alert("Citation copiée !");
+    }
+
+    function shareTwitter() {
+        const text = document.getElementById("main-quote").innerText;
+        const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+        window.open(url, '_blank');
+    }
+
+    // --- 3. SYSTÈME DE VOTE (SIMULATION) ---
+    let hasVoted = false;
+
+    function vote(id) {
+        if (hasVoted) return; // On empêche de voter 2 fois
+        hasVoted = true;
+
+        // On ajoute un style visuel à la carte votée
+        // (Note: Pour l'instant c'est local, ça ne sauvegarde pas sur un serveur)
+        const candidates = document.querySelectorAll('.candidate');
+        candidates[id-1].classList.add('voted');
+
+        // Simulation des pourcentages (Juste pour l'effet visuel)
+        // Dans le futur, ces chiffres viendront de la base de données
+        document.getElementById('prog-1').style.width = (id === 1 ? "55%" : "20%");
+        document.getElementById('prog-2').style.width = (id === 2 ? "60%" : "25%");
+        document.getElementById('prog-3').style.width = (id === 3 ? "45%" : "15%");
+
+        alert("Merci pour votre vote ! Le gagnant sera affiché demain à 10h00.");
+    }
+</script>
+</body>
+</html>

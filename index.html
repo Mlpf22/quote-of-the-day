@@ -22,25 +22,63 @@
             --radius-sm: 16px;
         }
 
-        /* --- CRITICAL: PREVENT GOOGLE TRANSLATE FONT CHANGE --- */
-        /* We force our fonts with !important to override Google's injection */
+        /* --- PROTECTION DES POLICES --- */
         body, .goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt, .goog-text-highlight {
             font-family: 'DM Sans', sans-serif !important;
         }
         h1, h2, h3, .quote-text, .landing-title, .cat-name, .candidate-text {
              font-family: 'Playfair Display', serif !important;
         }
-        /* Hide the intrusive top banner from Google */
         body { top: 0 !important; }
         .goog-te-banner-frame { display: none !important; }
-        /* Style the translate widget container slightly */
+
+        /* --- STYLING DU BOUTON TRANSLATE (PREMIUM) --- */
         #google_translate_element {
-            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-            background: white; padding: 5px; border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: white;
+            border-radius: 50px;
+            padding: 2px 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        #google_translate_element:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
         }
 
-        /* --- BASE STYLES --- */
+        /* On cache les éléments moches de Google pour garder que le texte */
+        .goog-te-gadget-simple {
+            background-color: transparent !important;
+            border: none !important;
+            padding: 8px !important;
+            font-family: 'DM Sans', sans-serif !important;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            color: #333 !important;
+        }
+        .goog-te-gadget-simple img {
+            display: none !important; /* Cache le petit logo Google */
+        }
+        .goog-te-menu-value span {
+            color: #333 !important;
+            border-left: none !important;
+        }
+        .goog-te-menu-value span:last-child {
+            display: none !important; /* Cache la flèche moche par défaut */
+        }
+        /* On ajoute notre propre flèche CSS */
+        .goog-te-gadget-simple::after {
+            content: '▼';
+            font-size: 0.6rem;
+            margin-left: 8px;
+            color: #888;
+        }
+
+        /* --- STYLES DE BASE --- */
         body {
             margin: 0; padding: 0;
             background-color: var(--bg-color);
@@ -78,7 +116,8 @@
         /* --- APP PAGE --- */
         #app-page {
             display: none; flex-direction: column; align-items: center;
-            animation: fadeIn 0.5s forwards; padding-bottom: 80px; /* space for translate widget */
+            animation: fadeIn 0.5s forwards; padding-bottom: 80px;
+            padding-top: 60px; /* Espace pour le bouton translate en haut */
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -97,7 +136,7 @@
             font-variant-numeric: tabular-nums;
         }
 
-        .hero-section { text-align: center; padding: 60px 20px; max-width: 650px; }
+        .hero-section { text-align: center; padding: 40px 20px; max-width: 650px; }
         .category-label {
             background: #eee; padding: 5px 12px; border-radius: 20px;
             font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
@@ -114,21 +153,17 @@
         .result-row { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee; font-size: 0.9rem; }
         .result-row:last-child { border: none; margin: 0; padding: 0; }
 
-        /* --- NEW IMAGE CONTAINER (Replaces Video) --- */
+        /* --- IMAGE CONTAINER --- */
         .image-container {
             width: 90%; max-width: 800px;
             border-radius: var(--radius);
             margin-bottom: 60px;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            background: #eee; /* loading placeholder color */
+            background: #eee;
         }
-
         .image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: opacity 0.3s;
+            width: 100%; height: auto; display: block; transition: opacity 0.3s;
         }
 
         /* --- VOTING --- */
@@ -168,7 +203,6 @@
 <body>
 
 <div id="google_translate_element"></div>
-
 
 <div id="landing-page">
     <div class="landing-title">Daily Quote.</div>
@@ -226,23 +260,27 @@
     <div class="success-message" id="success-msg">Choice Locked! ✅</div>
 </div>
 
-
 <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          // ICI LA LISTE RESTREINTE DES LANGUES :
+          includedLanguages: 'en,fr,de,it,pt,es,ar,ja',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+      }, 'google_translate_element');
     }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
 <script>
-    // --- DATABASE (ENGLISH & CELEBRITIES ADDED) ---
+    // --- DATABASE ---
     const database = {
         'Motivation': {
             current: {
                 text: "The only way to do great work is to love what you do.",
                 author: "Steve Jobs",
-                // PLACEHOLDER IMAGE: Remplace ce lien par ton image comic
                 image: "https://placehold.co/800x450/222/fff?text=Comic+Image:+Steve+Jobs+Idea"
             },
             candidates: [
@@ -255,7 +293,6 @@
             current: {
                 text: "I've missed more than 9000 shots in my career. I've failed over and over and over again in my life. And that is why I succeed.",
                 author: "Michael Jordan",
-                // PLACEHOLDER IMAGE
                 image: "https://placehold.co/800x450/e74c3c/fff?text=Comic+Image:+MJ+Missing+Shots"
             },
             candidates: [
@@ -290,23 +327,21 @@
         }
     };
 
-    // --- NAVIGATION & IMAGE LOADING ---
+    // --- APP LOGIC ---
     function openCategory(catName) {
         document.getElementById('landing-page').style.display = 'none';
         document.getElementById('app-page').style.display = 'flex';
-
         document.getElementById('current-category-label').innerText = catName;
 
         const data = database[catName];
         document.getElementById('main-quote').innerText = `"${data.current.text}"`;
         document.getElementById('main-author').innerText = `- ${data.current.author}`;
 
-        // LOAD THE IMAGE
         const imgEl = document.getElementById('daily-image');
-        imgEl.style.opacity = 0; // Fade out effect
+        imgEl.style.opacity = 0;
         setTimeout(() => {
             imgEl.src = data.current.image;
-            imgEl.style.opacity = 1; // Fade in
+            imgEl.style.opacity = 1;
         }, 200);
 
         renderCandidates(data.candidates);
@@ -319,7 +354,6 @@
         resetVoteUI();
     }
 
-    // --- CANDIDATES RENDER ---
     function renderCandidates(list) {
         const container = document.getElementById('candidates-list');
         container.innerHTML = '';
@@ -327,16 +361,12 @@
             const div = document.createElement('div');
             div.className = 'candidate';
             div.onclick = () => selectCandidate(index);
-            // Added Playfair font to candidate text here in JS too
             div.innerHTML = `<div class="candidate-text" style="font-family: 'Playfair Display', serif;">"${quote.text}"</div><small style="opacity:0.6">${quote.author}</small>`;
             container.appendChild(div);
         });
     }
 
-    // --- VOTE LOGIC ---
-    let selectedIndex = null;
-    let isLocked = false;
-
+    let selectedIndex = null; let isLocked = false;
     function selectCandidate(index) {
         if (isLocked) return;
         selectedIndex = index;
@@ -352,25 +382,20 @@
         isLocked = true;
         const btn = document.getElementById('lock-btn');
         const msg = document.getElementById('success-msg');
-        btn.style.display = 'none';
-        msg.style.display = 'block';
+        btn.style.display = 'none'; msg.style.display = 'block';
         document.querySelectorAll('.candidate').forEach((el, idx) => {
-            if (idx === selectedIndex) {
-                el.classList.remove('selected');
-                el.classList.add('locked-selection');
-            } else { el.classList.add('dimmed'); }
+            if (idx === selectedIndex) { el.classList.remove('selected'); el.classList.add('locked-selection'); }
+            else { el.classList.add('dimmed'); }
             el.onclick = null;
         });
         setTimeout(() => { msg.style.display = 'none'; }, 2000);
     }
-
     function resetVoteUI() {
         isLocked = false; selectedIndex = null;
         document.getElementById('lock-btn').style.display = 'none';
         document.getElementById('success-msg').style.display = 'none';
     }
 
-    // --- TIMER ---
     function updateTimer() {
         const now = new Date(); let target = new Date();
         target.setHours(10, 0, 0, 0);

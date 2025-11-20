@@ -22,30 +22,47 @@
             --radius-sm: 16px;
         }
 
-        /* --- HACK: SUPPRESSION TOTALE DE L'INTERFACE GOOGLE --- */
+        /* ========================================= */
+        /* 🛑 ZONE ANTI-BARRE GOOGLE (MODIF V9) 🛑 */
+        /* ========================================= */
 
-        /* 1. Cache la barre du haut */
+        /* 1. Cache l'iframe de la barre bleue (la coupable) */
+        iframe.goog-te-banner-frame {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+        }
+
+        /* 2. Cache le container qui entoure la barre */
         .goog-te-banner-frame.skiptranslate {
             display: none !important;
         }
+
+        /* 3. FORCE le corps du site à rester en haut (Google essaie de le pousser de 40px) */
         body {
             top: 0px !important;
-            position: static !important; /* Empêche le décalage du site vers le bas */
+            position: static !important;
+            margin-top: 0px !important;
         }
 
-        /* 2. Cache les popups "Suggérer une modification" */
-        .goog-tooltip, .goog-tooltip:hover {
+        /* 4. Cache les tooltips moches au survol */
+        .goog-tooltip {
             display: none !important;
         }
-
-        /* 3. Enlève le surlignage bleu/gris au survol */
+        .goog-tooltip:hover {
+            display: none !important;
+        }
         .goog-text-highlight {
             background-color: transparent !important;
             border: none !important;
             box-shadow: none !important;
         }
 
-        /* 4. Force nos polices */
+        /* ========================================= */
+        /* FIN ZONE ANTI-BARRE */
+        /* ========================================= */
+
+        /* Protection des polices */
         body, #goog-gt-tt {
             font-family: 'DM Sans', sans-serif !important;
         }
@@ -53,7 +70,7 @@
              font-family: 'Playfair Display', serif !important;
         }
 
-        /* --- STYLING DU BOUTON TRANSLATE --- */
+        /* --- BOUTON TRANSLATE STYLISÉ --- */
         #google_translate_element {
             position: fixed;
             top: 20px;
@@ -113,7 +130,7 @@
             transition: transform 0.2s;
             box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
-        .category-card:active { transform: scale(0.98); } /* Effet clic mobile */
+        .category-card:active { transform: scale(0.98); }
 
         .cat-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
         .cat-name { font-weight: 700; font-size: 1.1rem; }
@@ -185,7 +202,6 @@
         .candidate.locked-selection { background-color: var(--success-bg); border-color: var(--success); color: #1b5e20; }
         .candidate.dimmed { opacity: 0.4; pointer-events: none; }
 
-        /* --- CONFIRMATION MOBILE --- */
         #confirm-area {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             z-index: 999; width: 90%; max-width: 350px;
@@ -202,13 +218,13 @@
             font-size: 0.95rem; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
-        /* --- MEDIA QUERIES (MOBILE) --- */
+        /* MEDIA QUERIES */
         @media (max-width: 600px) {
             .landing-title { font-size: 2.5rem; }
-            .category-grid { grid-template-columns: 1fr; max-width: 320px; } /* 1 colonne sur mobile */
+            .category-grid { grid-template-columns: 1fr; max-width: 320px; }
             .quote-text { font-size: 1.6rem; }
             .past-results { width: 100%; }
-            header { padding: 0; } /* Moins de padding sur petit écran */
+            header { padding: 0; }
             #google_translate_element { top: 15px; right: 15px; padding: 2px 8px; }
         }
     </style>

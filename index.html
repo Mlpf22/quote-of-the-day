@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,284 +11,184 @@
 
     <style>
         :root {
-            --bg-color: #F7F7F8; /* Gris très doux */
+            --bg-color: #F7F7F8;
             --surface-color: #FFFFFF;
             --text-main: #1A1A1A;
             --text-light: #888888;
             --accent: #000000;
-            --success: #2F9E44; /* Vert plus doux */
+            --success: #2F9E44;
             --success-bg: #E8F5E9;
-            --radius: 24px; /* ARRONDI GÉNÉRAL */
+            --radius: 24px;
             --radius-sm: 16px;
         }
 
+        /* --- CRITICAL: PREVENT GOOGLE TRANSLATE FONT CHANGE --- */
+        /* We force our fonts with !important to override Google's injection */
+        body, .goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt, .goog-text-highlight {
+            font-family: 'DM Sans', sans-serif !important;
+        }
+        h1, h2, h3, .quote-text, .landing-title, .cat-name, .candidate-text {
+             font-family: 'Playfair Display', serif !important;
+        }
+        /* Hide the intrusive top banner from Google */
+        body { top: 0 !important; }
+        .goog-te-banner-frame { display: none !important; }
+        /* Style the translate widget container slightly */
+        #google_translate_element {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            background: white; padding: 5px; border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- BASE STYLES --- */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'DM Sans', sans-serif; /* Police plus ronde et moderne */
+            margin: 0; padding: 0;
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
         }
 
-        /* --- PAGE D'ACCUEIL (LANDING) --- */
+        /* --- LANDING PAGE --- */
         #landing-page {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-            transition: opacity 0.5s;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px;
+            text-align: center; transition: opacity 0.5s;
         }
 
-        .landing-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .landing-subtitle {
-            color: var(--text-light);
-            max-width: 400px;
-            line-height: 1.6;
-            margin-bottom: 50px;
-        }
+        .landing-title { font-size: 3rem; margin-bottom: 10px; }
+        .landing-subtitle { color: var(--text-light); max-width: 400px; line-height: 1.6; margin-bottom: 50px; }
 
         .category-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            width: 100%;
-            max-width: 600px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            width: 100%; max-width: 600px;
         }
 
         .category-card {
-            background: var(--surface-color);
-            padding: 30px 20px;
-            border-radius: var(--radius);
-            cursor: pointer;
+            background: var(--surface-color); padding: 30px 20px;
+            border-radius: var(--radius); cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid transparent;
             box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border-color: #eee;
-        }
-
+        .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-color: #eee; }
         .cat-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
         .cat-name { font-weight: 700; letter-spacing: -0.5px; }
 
-        /* --- PAGE D'APPLICATION (QUOTE & VOTE) --- */
+        /* --- APP PAGE --- */
         #app-page {
-            display: none; /* Caché au début */
-            flex-direction: column;
-            align-items: center;
-            animation: fadeIn 0.5s forwards;
+            display: none; flex-direction: column; align-items: center;
+            animation: fadeIn 0.5s forwards; padding-bottom: 80px; /* space for translate widget */
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         header {
-            width: 100%;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 800px;
+            width: 100%; padding: 20px 30px; display: flex;
+            justify-content: space-between; align-items: center; max-width: 800px;
         }
-
         .back-btn {
-            cursor: pointer;
-            font-size: 1.2rem;
-            background: white;
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center; justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border: none;
+            cursor: pointer; font-size: 1.2rem; background: white; width: 40px; height: 40px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: none;
         }
-
         .timer-badge {
-            background: white;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: white; padding: 8px 16px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             font-variant-numeric: tabular-nums;
         }
 
-        .hero-section {
-            text-align: center;
-            padding: 60px 20px;
-            max-width: 650px;
-        }
-
+        .hero-section { text-align: center; padding: 60px 20px; max-width: 650px; }
         .category-label {
-            background: #eee;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: inline-block;
+            background: #eee; padding: 5px 12px; border-radius: 20px;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+            font-weight: 700; margin-bottom: 20px; display: inline-block;
         }
+        .quote-text { font-size: 2.2rem; line-height: 1.4; margin-bottom: 20px; }
+        .quote-author { color: var(--text-light); font-style: italic; margin-bottom: 40px; }
 
-        .quote-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            line-height: 1.4;
-            margin-bottom: 20px;
-        }
-
-        .quote-author {
-            color: var(--text-light);
-            font-style: italic;
-            margin-bottom: 40px;
-        }
-
-        /* Résultats arrondis */
         .past-results {
-            background: white;
-            border-radius: var(--radius);
-            padding: 25px;
-            width: 100%;
-            max-width: 350px;
-            margin: 0 auto 40px auto;
+            background: white; border-radius: var(--radius); padding: 25px;
+            width: 100%; max-width: 350px; margin: 0 auto 40px auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
-        .result-row {
-            display: flex; justify-content: space-between;
-            margin-bottom: 10px; padding-bottom: 10px;
-            border-bottom: 1px dashed #eee; font-size: 0.9rem;
-        }
+        .result-row { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee; font-size: 0.9rem; }
         .result-row:last-child { border: none; margin: 0; padding: 0; }
 
-        /* Vidéo arrondie */
-        .video-container {
+        /* --- NEW IMAGE CONTAINER (Replaces Video) --- */
+        .image-container {
             width: 90%; max-width: 800px;
-            aspect-ratio: 16/9;
-            background: black;
-            border-radius: var(--radius); /* ARRONDIS ICI */
+            border-radius: var(--radius);
             margin-bottom: 60px;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: #eee; /* loading placeholder color */
         }
 
-        .video-placeholder {
-            height: 100%; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; color: white;
-        }
-
-        /* Section Vote */
-        .voting-section {
-            width: 100%; max-width: 800px;
-            padding: 0 20px 100px 20px;
-        }
-
-        .candidate {
-            background: white;
-            padding: 25px;
-            margin-bottom: 15px;
-            border-radius: var(--radius-sm); /* ARRONDIS ICI */
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-
-        .candidate:hover { transform: scale(1.01); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-
-        .candidate.selected {
-            border-color: black;
-            background: #fff;
-        }
-
-        .candidate.locked-selection {
-            background-color: var(--success-bg);
-            border-color: var(--success);
-            color: #1b5e20;
-        }
-
-        .candidate.dimmed { opacity: 0.4; pointer-events: none; }
-
-        /* Bouton flottant arrondi */
-        #confirm-area {
-            position: fixed; bottom: 30px; left: 50%;
-            transform: translateX(-50%); z-index: 100;
-            width: 90%; max-width: 350px;
-        }
-
-        .btn-confirm {
+        .image-container img {
             width: 100%;
-            background: black; color: white;
-            padding: 18px;
-            border-radius: 50px; /* GÉLULE */
-            border: none; font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            cursor: pointer;
-            font-size: 1rem;
-            display: none;
-            transition: transform 0.2s;
+            height: auto;
+            display: block;
+            transition: opacity 0.3s;
+        }
+
+        /* --- VOTING --- */
+        .voting-section { width: 100%; max-width: 800px; padding: 0 20px 100px 20px; }
+        .candidate {
+            background: white; padding: 25px; margin-bottom: 15px;
+            border-radius: var(--radius-sm); cursor: pointer; transition: all 0.3s;
+            border: 2px solid transparent; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .candidate:hover { transform: scale(1.01); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .candidate.selected { border-color: black; background: #fff; }
+        .candidate.locked-selection { background-color: var(--success-bg); border-color: var(--success); color: #1b5e20; }
+        .candidate.dimmed { opacity: 0.4; pointer-events: none; }
+        .candidate-text { font-size: 1.1rem; margin-bottom:5px; }
+
+        /* --- CONFIRMATION --- */
+        #confirm-area {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 100; width: 90%; max-width: 350px;
+        }
+        .btn-confirm {
+            width: 100%; background: black; color: white; padding: 18px;
+            border-radius: 50px; border: none; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); cursor: pointer;
+            font-size: 1rem; display: none; transition: transform 0.2s;
         }
         .btn-confirm:hover { transform: scale(1.02); }
-
         .success-message {
-            display: none;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px; /* GÉLULE */
-            text-align: center;
-            font-size: 0.9rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            animation: slideUp 0.3s ease;
+            display: none; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px);
+            color: white; padding: 15px 25px; border-radius: 50px; text-align: center;
+            font-size: 0.9rem; box-shadow: 0 15px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s ease;
         }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     </style>
 </head>
 <body>
 
+<div id="google_translate_element"></div>
+
+
 <div id="landing-page">
     <div class="landing-title">Daily Quote.</div>
     <p class="landing-subtitle">
-        Une citation élue chaque jour par la communauté.<br>
-        Choisissez votre univers.
+        One quote elected daily by the community.<br>
+        Choose your universe.
     </p>
 
     <div class="category-grid">
         <div class="category-card" onclick="openCategory('Motivation')">
-            <span class="cat-icon">🔥</span>
-            <span class="cat-name">Motivation</span>
+            <span class="cat-icon">🔥</span><span class="cat-name">Motivation</span>
         </div>
-        <div class="category-card" onclick="openCategory('Philosophie')">
-            <span class="cat-icon">🏛️</span>
-            <span class="cat-name">Philosophie</span>
+        <div class="category-card" onclick="openCategory('Success & Sport')">
+            <span class="cat-icon">🏆</span><span class="cat-name">Success & Sport</span>
         </div>
-        <div class="category-card" onclick="openCategory('Business')">
-            <span class="cat-icon">💼</span>
-            <span class="cat-name">Business</span>
+        <div class="category-card" onclick="openCategory('Philosophy')">
+            <span class="cat-icon">🏛️</span><span class="cat-name">Philosophy</span>
         </div>
-        <div class="category-card" onclick="openCategory('Humour')">
-            <span class="cat-icon">🎭</span>
-            <span class="cat-name">Humour</span>
+        <div class="category-card" onclick="openCategory('Humor')">
+            <span class="cat-icon">🎭</span><span class="cat-name">Humor</span>
         </div>
     </div>
 </div>
@@ -300,83 +200,114 @@
     </header>
 
     <section class="hero-section">
-        <span class="category-label" id="current-category-label">MOTIVATION</span>
-        <div class="quote-text" id="main-quote">
-            "Chargement de la citation..."
-        </div>
+        <span class="category-label" id="current-category-label">CATEGORY</span>
+        <div class="quote-text" id="main-quote">Loading...</div>
         <div class="quote-author" id="main-author"></div>
 
         <div class="past-results">
-            <div class="result-row"><span>01. Gagnant d'hier</span><strong>58%</strong></div>
+            <div class="result-row"><span>01. Yesterday's Winner</span><strong>58%</strong></div>
             <div class="result-row"><span>02. Challenger A</span><span>24%</span></div>
             <div class="result-row"><span>03. Challenger B</span><span>18%</span></div>
         </div>
     </section>
 
-    <div class="video-container">
-        <div class="video-placeholder">
-            <p>▶ VIDÉO DU JOUR</p>
-        </div>
+    <div class="image-container">
+        <img id="daily-image" src="" alt="Quote representation of the day">
     </div>
 
     <section class="voting-section">
-        <h3 style="text-align:center; margin-bottom:30px; font-weight:500;">Votez pour demain</h3>
+        <h3 style="text-align:center; margin-bottom:30px; font-weight:500;">Vote for Tomorrow</h3>
         <div id="candidates-list"></div>
     </section>
 </div>
 
 <div id="confirm-area">
-    <button class="btn-confirm" id="lock-btn" onclick="lockVote()">Confirmer le vote</button>
-    <div class="success-message" id="success-msg">Choix verrouillé ! ✅</div>
+    <button class="btn-confirm" id="lock-btn" onclick="lockVote()">Confirm Vote</button>
+    <div class="success-message" id="success-msg">Choice Locked! ✅</div>
 </div>
 
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
 <script>
-    // --- DONNÉES PAR CATÉGORIE ---
+    // --- DATABASE (ENGLISH & CELEBRITIES ADDED) ---
     const database = {
         'Motivation': {
-            current: { text: "La seule façon de faire du bon travail est d'aimer ce que vous faites.", author: "Steve Jobs" },
+            current: {
+                text: "The only way to do great work is to love what you do.",
+                author: "Steve Jobs",
+                // PLACEHOLDER IMAGE: Remplace ce lien par ton image comic
+                image: "https://placehold.co/800x450/222/fff?text=Comic+Image:+Steve+Jobs+Idea"
+            },
             candidates: [
-                { text: "Ils ne savaient pas que c'était impossible, alors ils l'ont fait.", author: "Mark Twain" },
-                { text: "Le succès, c'est d'aller d'échec en échec sans perdre son enthousiasme.", author: "Churchill" },
-                { text: "Fais de ta vie un rêve, et d'un rêve, une réalité.", author: "Saint-Exupéry" }
+                { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+                { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+                { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
             ]
         },
-        'Philosophie': {
-            current: { text: "La vie sans musique est tout simplement une erreur.", author: "Nietzsche" },
+        'Success & Sport': {
+            current: {
+                text: "I've missed more than 9000 shots in my career. I've failed over and over and over again in my life. And that is why I succeed.",
+                author: "Michael Jordan",
+                // PLACEHOLDER IMAGE
+                image: "https://placehold.co/800x450/e74c3c/fff?text=Comic+Image:+MJ+Missing+Shots"
+            },
             candidates: [
-                { text: "Je pense, donc je suis.", author: "Descartes" },
-                { text: "L'enfer, c'est les autres.", author: "Sartre" },
-                { text: "Connais-toi toi-même.", author: "Socrate" }
+                { text: "Success isn't overnight. It's when every day you get a little better than the day before. It all adds up.", author: "Dwayne 'The Rock' Johnson" },
+                { text: "If you're afraid to fail, then you're probably going to fail.", author: "Kobe Bryant" },
+                { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" }
             ]
         },
-        'Business': {
-            current: { text: "Le risque vient de ne pas savoir ce que l'on fait.", author: "Warren Buffett" },
+        'Philosophy': {
+            current: {
+                text: "Without music, life would be a mistake.",
+                author: "Friedrich Nietzsche",
+                image: "https://placehold.co/800x450/333/fff?text=Comic+Image:+Nietzsche+Listening+To+Music"
+            },
             candidates: [
-                { text: "Si vous ne construisez pas votre rêve, quelqu'un vous embauchera pour construire le sien.", author: "Tony Gaskins" },
-                { text: "La qualité signifie bien faire les choses quand personne ne regarde.", author: "Henry Ford" }
+                { text: "I think, therefore I am.", author: "René Descartes" },
+                { text: "Hell is other people.", author: "Jean-Paul Sartre" },
+                { text: "The unexamined life is not worth living.", author: "Socrates" }
             ]
         },
-        'Humour': {
-            current: { text: "Je résiste à tout, sauf à la tentation.", author: "Oscar Wilde" },
+        'Humor': {
+            current: {
+                text: "I can resist everything except temptation.",
+                author: "Oscar Wilde",
+                image: "https://placehold.co/800x450/f1c40f/000?text=Comic+Image:+Wilde+Eating+Cake"
+            },
             candidates: [
-                { text: "L'intelligence, c'est comme un parachute, quand on n'en a pas, on s'écrase.", author: "Pierre Desproges" },
-                { text: "Le travail n'a jamais tué personne, mais pourquoi prendre le risque ?", author: "Inconnu" }
+                { text: "Common sense is like deodorant. The people who need it most never use it.", author: "Bill Murray" },
+                { text: "I'm not superstitious, but I am a little stitious.", author: "Michael Scott (The Office)" },
+                { text: "Before you criticize someone, you should walk a mile in their shoes. That way when you criticize them, you are a mile away from them and you have their shoes.", author: "Jack Handey" }
             ]
         }
     };
 
-    // --- NAVIGATION ---
+    // --- NAVIGATION & IMAGE LOADING ---
     function openCategory(catName) {
-        // 1. Cacher l'accueil, montrer l'app
         document.getElementById('landing-page').style.display = 'none';
         document.getElementById('app-page').style.display = 'flex';
 
-        // 2. Mettre à jour les données
         document.getElementById('current-category-label').innerText = catName;
 
         const data = database[catName];
         document.getElementById('main-quote').innerText = `"${data.current.text}"`;
         document.getElementById('main-author').innerText = `- ${data.current.author}`;
+
+        // LOAD THE IMAGE
+        const imgEl = document.getElementById('daily-image');
+        imgEl.style.opacity = 0; // Fade out effect
+        setTimeout(() => {
+            imgEl.src = data.current.image;
+            imgEl.style.opacity = 1; // Fade in
+        }, 200);
 
         renderCandidates(data.candidates);
         window.scrollTo(0, 0);
@@ -385,11 +316,10 @@
     function goHome() {
         document.getElementById('app-page').style.display = 'none';
         document.getElementById('landing-page').style.display = 'flex';
-        // Reset vote state if wanted
         resetVoteUI();
     }
 
-    // --- LISTE DES CANDIDATS ---
+    // --- CANDIDATES RENDER ---
     function renderCandidates(list) {
         const container = document.getElementById('candidates-list');
         container.innerHTML = '';
@@ -397,7 +327,8 @@
             const div = document.createElement('div');
             div.className = 'candidate';
             div.onclick = () => selectCandidate(index);
-            div.innerHTML = `<div style="font-size:1.1rem; margin-bottom:5px;">"${quote.text}"</div><small style="opacity:0.6">${quote.author}</small>`;
+            // Added Playfair font to candidate text here in JS too
+            div.innerHTML = `<div class="candidate-text" style="font-family: 'Playfair Display', serif;">"${quote.text}"</div><small style="opacity:0.6">${quote.author}</small>`;
             container.appendChild(div);
         });
     }
@@ -419,42 +350,29 @@
     function lockVote() {
         if (selectedIndex === null) return;
         isLocked = true;
-
         const btn = document.getElementById('lock-btn');
         const msg = document.getElementById('success-msg');
-
-        // 1. Cacher bouton, montrer message
         btn.style.display = 'none';
         msg.style.display = 'block';
-
-        // 2. Style locké
         document.querySelectorAll('.candidate').forEach((el, idx) => {
             if (idx === selectedIndex) {
                 el.classList.remove('selected');
                 el.classList.add('locked-selection');
-            } else {
-                el.classList.add('dimmed');
-            }
+            } else { el.classList.add('dimmed'); }
             el.onclick = null;
         });
-
-        // 3. DISPARITION AUTO APRÈS 2 SECONDES
-        setTimeout(() => {
-            msg.style.display = 'none'; // Le message disparaît
-        }, 2000);
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
     }
 
     function resetVoteUI() {
-        isLocked = false;
-        selectedIndex = null;
+        isLocked = false; selectedIndex = null;
         document.getElementById('lock-btn').style.display = 'none';
         document.getElementById('success-msg').style.display = 'none';
     }
 
     // --- TIMER ---
     function updateTimer() {
-        const now = new Date();
-        let target = new Date();
+        const now = new Date(); let target = new Date();
         target.setHours(10, 0, 0, 0);
         if (now > target) target.setDate(target.getDate() + 1);
         const diff = target - now;
@@ -463,9 +381,7 @@
         const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
         document.getElementById("countdown").innerText = `${h}:${m}:${s}`;
     }
-    setInterval(updateTimer, 1000);
-    updateTimer();
-
+    setInterval(updateTimer, 1000); updateTimer();
 </script>
 </body>
 </html>

@@ -3,32 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Citation du Jour - Édition Nature</title>
+    <title>La Citation du Jour</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Palette Nature / Premium */
-            --bg-color: #F3F5F4; /* Gris-Vert très pâle */
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #2C3639;
-            --text-secondary: #5F6F65;
-            --accent: #3F4E4F;
-            --green-leaf: #A2B29F;
+            --bg-overlay: rgba(255, 255, 255, 0.85); /* Calque blanc pour lire le texte sur les plantes */
+            --text-main: #000000;
+            --text-secondary: #444444;
+            --success-green: #2ecc71; /* Vert pour le vote validé */
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            /* ICI: Tu pourras mettre l'URL de ton image de fond plus tard */
-            /* background-image: url('TON_IMAGE_PLANTES.jpg'); */
+
+            /* --- ICI C'EST L'IMAGE DE FOND (Mur de plantes) --- */
+            background-image: url('https://images.unsplash.com/photo-1485637701894-09ad422f6de6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-attachment: fixed;
+            background-position: center;
+
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -36,63 +35,79 @@
             min-height: 100vh;
         }
 
-        /* --- HEADER & TIMER --- */
+        /* --- HEADER --- */
         header {
             width: 100%;
             padding: 20px;
+            background: var(--bg-overlay); /* Fond semi-transparent pour lisibilité */
+            backdrop-filter: blur(5px); /* Effet de flou joli */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 900px;
             box-sizing: border-box;
-            z-index: 10;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid black;
         }
 
         .brand {
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: -0.5px;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
         }
 
         .timer-badge {
             font-size: 0.9rem;
-            background: white;
+            font-weight: 600;
+            background: black;
+            color: white;
             padding: 8px 16px;
-            border-radius: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 50px;
             font-variant-numeric: tabular-nums;
-            color: var(--text-secondary);
         }
 
-        /* --- SECTION 1: GAGNANT D'HIER --- */
+        /* --- CONTAINER PRINCIPAL (Pour centrer et avoir un fond propre) --- */
+        .main-container {
+            background: var(--bg-overlay);
+            width: 100%;
+            max-width: 900px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* --- SECTION HERO (Gagnant d'hier) --- */
         .hero-section {
             text-align: center;
-            padding: 80px 20px 40px 20px;
+            padding: 60px 20px;
             max-width: 700px;
-            position: relative;
+            border-bottom: 2px solid black;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .label-date {
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-secondary);
+            letter-spacing: 3px;
+            font-weight: bold;
             margin-bottom: 20px;
             display: block;
         }
 
-        /* Même police partout comme demandé */
         .quote-text {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem; /* Un peu plus petit pour être élégant */
-            line-height: 1.4;
-            color: var(--text-main);
+            font-size: 2.5rem;
+            line-height: 1.3;
+            font-weight: 700;
             margin-bottom: 20px;
         }
 
         .quote-author {
-            font-size: 1rem;
-            color: var(--text-secondary);
+            font-size: 1.1rem;
             font-style: italic;
             margin-bottom: 30px;
         }
@@ -106,73 +121,47 @@
 
         .btn {
             background: white;
-            border: 1px solid #ddd;
+            border: 2px solid black;
             padding: 10px 25px;
             cursor: pointer;
             border-radius: 50px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: 600;
+            transition: all 0.2s;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: black;
+            color: white;
         }
 
-        /* --- RESULTATS D'HIER (Petit tableau) --- */
+        /* Tableau résultats d'hier */
         .past-results {
-            background: rgba(255,255,255,0.5);
-            border-radius: 15px;
+            border: 2px solid black;
+            background: white;
             padding: 20px;
-            margin: 0 auto 60px auto;
+            margin: 0 auto;
             max-width: 400px;
-            font-size: 0.85rem;
             text-align: left;
-        }
-        .past-results h3 {
-            margin: 0 0 15px 0;
-            font-size: 0.9rem;
-            text-align: center;
-            opacity: 0.7;
+            box-shadow: 5px 5px 0px black; /* Ombre "Cartoon" dure */
         }
         .result-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed #ddd;
-        }
-        .result-row:last-child { border-bottom: none; }
-
-        /* --- SCROLL INDICATOR --- */
-        .scroll-indicator {
-            margin-bottom: 60px;
-            text-align: center;
-            animation: bounce 2s infinite;
-            opacity: 0.6;
-            font-size: 0.8rem;
-            cursor: pointer;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
-        }
-
-        /* --- VIDEO SECTION --- */
+        /* --- VIDEO --- */
         .video-container {
             width: 90%;
             max-width: 800px;
-            background: #000;
+            background: black;
             aspect-ratio: 16/9;
-            margin-bottom: 80px;
-            border-radius: 20px;
-            overflow: hidden;
+            margin: 60px 0;
+            border: 2px solid black;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
         }
 
         .video-placeholder {
@@ -183,204 +172,165 @@
             align-items: center;
             color: white;
             flex-direction: column;
-            background: linear-gradient(45deg, #1a1a1a, #2C3639);
         }
 
-        /* --- VOTING SECTION (POUR DEMAIN) --- */
+        /* --- VOTING SECTION --- */
         .voting-section {
             width: 100%;
-            max-width: 800px;
-            padding: 60px 20px;
-            background: var(--card-bg);
-            border-radius: 30px 30px 0 0;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.03);
-            position: relative;
+            padding: 40px 20px 100px 20px; /* Padding bas pour le bouton flottant */
+            box-sizing: border-box;
+            background: white;
         }
 
         .voting-header {
             text-align: center;
             margin-bottom: 40px;
         }
-        .voting-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin: 0;
-        }
-        .voting-header p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
 
-        /* Grid pour les 10 quotes */
         .candidates-grid {
             display: grid;
-            grid-template-columns: 1fr; /* 1 colonne sur mobile */
-            gap: 15px;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
-
-        /* Sur ordi, 2 colonnes */
         @media (min-width: 600px) {
-            .candidates-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            .candidates-grid { grid-template-columns: 1fr 1fr; }
         }
 
         .candidate {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 20px;
             cursor: pointer;
-            border: 2px solid transparent;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             position: relative;
+
+            /* MODIF DEMANDÉE : BORDURE NOIRE PAR DÉFAUT */
+            border: 2px solid black;
         }
 
         .candidate:hover {
-            border-color: #ddd;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px black; /* Effet "Pop" au survol */
         }
 
-        /* État SÉLECTIONNÉ (mais pas encore validé) */
+        /* État SÉLECTIONNÉ (Clic 1) */
         .candidate.selected {
-            border-color: var(--text-main);
-            background-color: #fffbf0; /* Très léger jaune */
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            z-index: 2;
+            background-color: #f0f0f0;
+            box-shadow: 8px 8px 0px black;
+            transform: translate(-4px, -4px);
+            border-width: 3px;
         }
 
-        /* État VERROUILLÉ (après validation) */
+        /* État VERROUILLÉ (Après confirmation) - DEVIENT VERT */
         .candidate.locked-selection {
-            border-color: #2ecc71;
-            background-color: #f0fff4;
+            background-color: #dbfcead2; /* Fond vert très clair */
+            border-color: var(--success-green); /* Bordure verte */
+            border-width: 3px;
+            box-shadow: none;
+            transform: none;
+            color: #006400; /* Texte vert foncé */
         }
 
         .candidate.dimmed {
-            opacity: 0.5;
+            opacity: 0.3;
             pointer-events: none;
+            border-color: #ccc;
         }
 
         .candidate-text {
-            font-family: 'Playfair Display', serif; /* Même police que le héros */
-            font-size: 1rem;
-            line-height: 1.4;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
             margin-bottom: 10px;
-            color: #333;
+            font-weight: 600;
         }
 
-        .candidate-author {
-            font-size: 0.8rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Bouton de confirmation flottant */
+        /* Bouton confirmation */
         #confirm-btn-container {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 100;
-            display: none; /* Caché par défaut */
+            z-index: 200;
+            display: none;
         }
 
         .btn-confirm {
-            background-color: var(--text-main);
+            background-color: black;
             color: white;
             padding: 15px 40px;
             border-radius: 50px;
-            border: none;
+            border: 2px solid white;
             font-size: 1rem;
-            font-weight: 600;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
             cursor: pointer;
-            transition: transform 0.2s;
         }
 
         .btn-confirm:hover {
             transform: scale(1.05);
+            background-color: var(--success-green);
+            border-color: black;
         }
 
         footer {
-            background: var(--card-bg);
-            width: 100%;
-            text-align: center;
             padding: 40px;
+            text-align: center;
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: #666;
         }
-
     </style>
 </head>
 <body>
 
-<header>
-    <div class="brand">Q.O.T.D.</div>
-    <div class="timer-badge" id="countdown">--:--:--</div>
-</header>
+<div class="main-container">
 
-<section class="hero-section">
-    <span class="label-date">Citation du Jour</span>
-    <div class="quote-text" id="main-quote">
-        "La seule façon de faire du bon travail est d'aimer ce que vous faites."
-    </div>
-    <div class="quote-author" id="main-author">- Steve Jobs</div>
+    <header>
+        <div class="brand">Q.O.T.D.</div>
+        <div class="timer-badge" id="countdown">--:--:--</div>
+    </header>
 
-    <div class="actions">
-        <button class="btn" onclick="copyQuote()">Copier</button>
-        <button class="btn" onclick="shareTwitter()">Partager sur X</button>
-    </div>
-
-    <div class="past-results">
-        <h3>Résultats du vote d'hier</h3>
-        <div class="result-row">
-            <span>1. Steve Jobs</span>
-            <span><strong>58%</strong></span>
+    <section class="hero-section">
+        <span class="label-date">Gagnant d'Hier</span>
+        <div class="quote-text" id="main-quote">
+            "La seule façon de faire du bon travail est d'aimer ce que vous faites."
         </div>
-        <div class="result-row">
-            <span>2. Winston Churchill</span>
-            <span>24%</span>
+        <div class="quote-author" id="main-author">- Steve Jobs</div>
+
+        <div class="actions">
+            <button class="btn" onclick="copyQuote()">Copier</button>
+            <button class="btn" onclick="shareTwitter()">Partager sur X</button>
         </div>
-        <div class="result-row">
-            <span>3. Mark Twain</span>
-            <span>18%</span>
+
+        <div class="past-results">
+            <h3 style="margin-top:0; text-align:center">📊 Scores d'hier</h3>
+            <div class="result-row"><span>1. Steve Jobs</span><span>58%</span></div>
+            <div class="result-row"><span>2. W. Churchill</span><span>24%</span></div>
+            <div class="result-row"><span>3. Mark Twain</span><span>18%</span></div>
+        </div>
+    </section>
+
+    <div class="video-container">
+        <div class="video-placeholder">
+            <p>▶ VIDÉO DU JOUR</p>
         </div>
     </div>
-</section>
 
-<div class="scroll-indicator" onclick="document.getElementById('video-anchor').scrollIntoView({behavior: 'smooth'})">
-    Scrollez pour voir la vidéo et voter<br>
-    ↓
+    <section class="voting-section">
+        <div class="voting-header">
+            <h2 style="font-family: 'Playfair Display', serif;">Votez pour demain</h2>
+            <p>Cliquez sur une case pour choisir, puis validez.</p>
+        </div>
+
+        <div class="candidates-grid" id="candidates-list"></div>
+    </section>
+
+    <footer>&copy; 2025 Quote of the Day.</footer>
 </div>
-
-<div class="video-container" id="video-anchor">
-    <div class="video-placeholder">
-        <p>▶ Lancer la vidéo IA</p>
-        <small>Présentation de la citation gagnante</small>
-    </div>
-</div>
-
-<section class="voting-section">
-    <div class="voting-header">
-        <h2>Votez pour demain</h2>
-        <p>Sélectionnez votre favorite. Résultats cachés jusqu'à 10h00.</p>
-    </div>
-
-    <div class="candidates-grid" id="candidates-list">
-    </div>
-</section>
 
 <div id="confirm-btn-container">
-    <button class="btn-confirm" onclick="lockVote()">VERROUILLER MON CHOIX 🔒</button>
+    <button class="btn-confirm" onclick="lockVote()">CONFIRMER MON VOTE ✅</button>
 </div>
 
-<footer>
-    &copy; 2025 Quote of the Day. <br>Minimalisme & Nature.
-</footer>
-
 <script>
-    // --- DONNÉES : LISTE DES 10 CANDIDATS ---
     const candidatesData = [
         { text: "Ils ne savaient pas que c'était impossible, alors ils l'ont fait.", author: "Mark Twain" },
         { text: "Le succès, c'est d'aller d'échec en échec sans perdre son enthousiasme.", author: "Churchill" },
@@ -394,103 +344,70 @@
         { text: "Le plus grand risque est de ne prendre aucun risque.", author: "Mark Zuckerberg" }
     ];
 
-    // --- INITIALISATION DU SITE ---
     window.onload = function() {
         renderCandidates();
         updateTimer();
         setInterval(updateTimer, 1000);
     };
 
-    // --- 1. RENDU DES CANDIDATS (Génération HTML) ---
     function renderCandidates() {
         const container = document.getElementById('candidates-list');
         container.innerHTML = '';
-
         candidatesData.forEach((quote, index) => {
             const div = document.createElement('div');
             div.className = 'candidate';
-            div.id = `candidate-${index}`;
             div.onclick = () => selectCandidate(index);
-
-            div.innerHTML = `
-                <div class="candidate-text">"${quote.text}"</div>
-                <div class="candidate-author">- ${quote.author}</div>
-            `;
+            div.innerHTML = `<div class="candidate-text">"${quote.text}"</div><div class="candidate-author">- ${quote.author}</div>`;
             container.appendChild(div);
         });
     }
 
-    // --- 2. LOGIQUE DE VOTE (SELECT & LOCK) ---
     let selectedIndex = null;
     let isLocked = false;
 
     function selectCandidate(index) {
-        if (isLocked) return; // Si verrouillé, on ne peut plus changer
-
+        if (isLocked) return;
         selectedIndex = index;
-
-        // Mise à jour visuelle : On enlève la classe 'selected' partout et on la met sur le bon
         document.querySelectorAll('.candidate').forEach((el, idx) => {
-            if (idx === index) {
-                el.classList.add('selected');
-            } else {
-                el.classList.remove('selected');
-            }
+            if (idx === index) el.classList.add('selected');
+            else el.classList.remove('selected');
         });
-
-        // Afficher le bouton de confirmation
         document.getElementById('confirm-btn-container').style.display = 'block';
     }
 
     function lockVote() {
         if (selectedIndex === null) return;
-
         isLocked = true;
-
-        // 1. Cacher le bouton
         document.getElementById('confirm-btn-container').style.display = 'none';
-
-        // 2. Griser les autres et mettre en vert le choisi
         document.querySelectorAll('.candidate').forEach((el, idx) => {
             if (idx === selectedIndex) {
                 el.classList.remove('selected');
-                el.classList.add('locked-selection'); // Devient vert
+                el.classList.add('locked-selection'); // C'est ici que ça devient vert !
             } else {
-                el.classList.add('dimmed'); // Devient transparent
+                el.classList.add('dimmed');
             }
-            // Désactiver le clic
             el.onclick = null;
         });
-
-        alert("Vote enregistré ! Revenez demain à 10h00 pour voir si votre citation a gagné.");
     }
 
-    // --- 3. TIMER ---
     function updateTimer() {
         const now = new Date();
         let target = new Date();
         target.setHours(10, 0, 0, 0);
         if (now > target) target.setDate(target.getDate() + 1);
-
         const diff = target - now;
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById("countdown").innerText = `Vote clos dans: ${hours}h ${minutes}m ${seconds}s`;
+        const h = Math.floor((diff % (86400000)) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById("countdown").innerText = `Prochaine: ${h}h ${m}m ${s}s`;
     }
 
-    // --- 4. OUTILS ---
     function copyQuote() {
-        const text = document.getElementById("main-quote").innerText + " " + document.getElementById("main-author").innerText;
-        navigator.clipboard.writeText(text);
-        alert("Copié dans le presse-papier !");
+        navigator.clipboard.writeText(document.getElementById("main-quote").innerText);
+        alert("Copié !");
     }
-
     function shareTwitter() {
-        const text = document.getElementById("main-quote").innerText;
-        const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
-        window.open(url, '_blank');
+        window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(document.getElementById("main-quote").innerText), '_blank');
     }
 </script>
 </body>

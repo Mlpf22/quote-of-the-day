@@ -3,31 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Citation du Jour</title>
+    <title>The Daily Quote</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-overlay: rgba(255, 255, 255, 0.85); /* Calque blanc pour lire le texte sur les plantes */
-            --text-main: #000000;
-            --text-secondary: #444444;
-            --success-green: #2ecc71; /* Vert pour le vote validé */
+            /* Palette Premium "Silent Luxury" */
+            --bg-start: #fcfcfc;
+            --bg-end: #f0f2f0;
+            --text-main: #111111;
+            --text-light: #666666;
+            --border-color: #e0e0e0;
+            --accent-selected: #000000;
+            --accent-success: #1b4d3e; /* Vert Anglais Profond */
+            --accent-success-bg: #e8f5e9;
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-
-            /* --- ICI C'EST L'IMAGE DE FOND (Mur de plantes) --- */
-            background-image: url('https://images.unsplash.com/photo-1485637701894-09ad422f6de6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-
+            background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -38,130 +37,130 @@
         /* --- HEADER --- */
         header {
             width: 100%;
-            padding: 20px;
-            background: var(--bg-overlay); /* Fond semi-transparent pour lisibilité */
-            backdrop-filter: blur(5px); /* Effet de flou joli */
+            padding: 30px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1000px;
             box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid black;
         }
 
         .brand {
-            font-weight: 900;
-            font-size: 1.5rem;
-            letter-spacing: -1px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
         }
 
         .timer-badge {
-            font-size: 0.9rem;
-            font-weight: 600;
-            background: black;
-            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--text-light);
             padding: 8px 16px;
-            border-radius: 50px;
+            border-radius: 2px; /* Angles plus carrés = plus premium */
             font-variant-numeric: tabular-nums;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* --- CONTAINER PRINCIPAL (Pour centrer et avoir un fond propre) --- */
-        .main-container {
-            background: var(--bg-overlay);
-            width: 100%;
-            max-width: 900px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-
-        /* --- SECTION HERO (Gagnant d'hier) --- */
+        /* --- SECTION 1: GAGNANT --- */
         .hero-section {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px 60px 20px;
             max-width: 700px;
-            border-bottom: 2px solid black;
             width: 100%;
-            box-sizing: border-box;
         }
 
         .label-date {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            color: var(--text-light);
+            margin-bottom: 30px;
             display: block;
+            font-weight: 600;
         }
 
         .quote-text {
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
             line-height: 1.3;
-            font-weight: 700;
-            margin-bottom: 20px;
+            color: var(--text-main);
+            margin-bottom: 25px;
         }
 
         .quote-author {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
             font-style: italic;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Petite ligne élégante sous l'auteur */
+        .quote-author::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: black;
+            margin: 10px auto 0 auto;
         }
 
         .actions {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .btn {
-            background: white;
-            border: 2px solid black;
-            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 12px 30px;
             cursor: pointer;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            color: var(--text-light);
         }
 
         .btn:hover {
-            background: black;
-            color: white;
+            border-color: black;
+            color: black;
         }
 
-        /* Tableau résultats d'hier */
+        /* --- TABLEAU SCORES MINIMALISTE --- */
         .past-results {
-            border: 2px solid black;
-            background: white;
-            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
             margin: 0 auto;
-            max-width: 400px;
-            text-align: left;
-            box-shadow: 5px 5px 0px black; /* Ombre "Cartoon" dure */
+            max-width: 350px;
+            width: 100%;
         }
         .result-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-light);
         }
+        .result-row strong { color: black; }
+        .result-row:last-child { margin-bottom: 0; }
 
         /* --- VIDEO --- */
         .video-container {
-            width: 90%;
-            max-width: 800px;
-            background: black;
+            width: 100%;
+            max-width: 900px;
+            background: #000;
             aspect-ratio: 16/9;
-            margin: 60px 0;
-            border: 2px solid black;
+            margin-bottom: 100px;
+            /* Pas de bordure, design "Borderless" plus moderne */
             position: relative;
-            box-shadow: 10px 10px 0px rgba(0,0,0,0.2);
         }
 
         .video-placeholder {
@@ -172,19 +171,34 @@
             align-items: center;
             color: white;
             flex-direction: column;
+            font-weight: 300;
+            letter-spacing: 2px;
         }
 
         /* --- VOTING SECTION --- */
         .voting-section {
             width: 100%;
-            padding: 40px 20px 100px 20px; /* Padding bas pour le bouton flottant */
+            max-width: 900px;
+            padding: 0 20px 120px 20px; /* Espace en bas pour le bouton */
             box-sizing: border-box;
-            background: white;
         }
 
         .voting-header {
-            text-align: center;
+            text-align: left; /* Alignement gauche plus éditorial */
             margin-bottom: 40px;
+            border-bottom: 1px solid black;
+            padding-bottom: 20px;
+        }
+        .voting-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 400;
+        }
+        .voting-header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0;
         }
 
         .candidates-grid {
@@ -192,142 +206,170 @@
             grid-template-columns: 1fr;
             gap: 20px;
         }
-        @media (min-width: 600px) {
+        @media (min-width: 700px) {
             .candidates-grid { grid-template-columns: 1fr 1fr; }
         }
 
         .candidate {
             background: white;
-            padding: 20px;
+            padding: 30px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-
-            /* MODIF DEMANDÉE : BORDURE NOIRE PAR DÉFAUT */
-            border: 2px solid black;
+            transition: all 0.3s ease;
+            border: 1px solid transparent; /* Invisible par défaut */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03); /* Ombre très diffuse */
         }
 
         .candidate:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0px black; /* Effet "Pop" au survol */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
         }
 
-        /* État SÉLECTIONNÉ (Clic 1) */
+        /* SÉLECTIONNÉ : Bordure Noire Fine */
         .candidate.selected {
-            background-color: #f0f0f0;
-            box-shadow: 8px 8px 0px black;
-            transform: translate(-4px, -4px);
-            border-width: 3px;
+            border: 1px solid black;
+            background-color: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
-        /* État VERROUILLÉ (Après confirmation) - DEVIENT VERT */
+        /* LOCKÉ : Style Vert Profond */
         .candidate.locked-selection {
-            background-color: #dbfcead2; /* Fond vert très clair */
-            border-color: var(--success-green); /* Bordure verte */
-            border-width: 3px;
-            box-shadow: none;
-            transform: none;
-            color: #006400; /* Texte vert foncé */
+            border: 1px solid var(--accent-success);
+            background-color: var(--accent-success-bg);
+            color: var(--accent-success);
         }
 
         .candidate.dimmed {
-            opacity: 0.3;
+            opacity: 0.3; /* Très discret */
             pointer-events: none;
-            border-color: #ccc;
+            filter: grayscale(100%);
         }
 
         .candidate-text {
             font-family: 'Playfair Display', serif;
             font-size: 1.1rem;
-            margin-bottom: 10px;
-            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 15px;
         }
 
-        /* Bouton confirmation */
-        #confirm-btn-container {
+        .candidate-author {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.6;
+        }
+
+        /* --- BOUTON ET MESSAGE CONFIRMATION --- */
+        #confirm-area {
             position: fixed;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 200;
-            display: none;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
         }
 
         .btn-confirm {
             background-color: black;
             color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            border: 2px solid white;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            padding: 16px 40px;
+            border-radius: 2px; /* Carré */
+            border: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            width: 100%;
+            display: none; /* Caché par défaut */
         }
 
         .btn-confirm:hover {
-            transform: scale(1.05);
-            background-color: var(--success-green);
-            border-color: black;
+            background-color: #222;
+        }
+
+        /* Le message de succès qui remplace le bouton */
+        .success-message {
+            display: none;
+            background: black;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 2px;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         footer {
             padding: 40px;
             text-align: center;
-            font-size: 0.8rem;
-            color: #666;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            opacity: 0.5;
         }
+
     </style>
 </head>
 <body>
 
-<div class="main-container">
+<header>
+    <div class="brand">Quote of the Day.</div>
+    <div class="timer-badge" id="countdown">--:--:--</div>
+</header>
 
-    <header>
-        <div class="brand">Q.O.T.D.</div>
-        <div class="timer-badge" id="countdown">--:--:--</div>
-    </header>
+<section class="hero-section">
+    <span class="label-date">Sélection Officielle d'Hier</span>
+    <div class="quote-text" id="main-quote">
+        "La seule façon de faire du bon travail est d'aimer ce que vous faites."
+    </div>
+    <div class="quote-author" id="main-author">Steve Jobs</div>
 
-    <section class="hero-section">
-        <span class="label-date">Gagnant d'Hier</span>
-        <div class="quote-text" id="main-quote">
-            "La seule façon de faire du bon travail est d'aimer ce que vous faites."
-        </div>
-        <div class="quote-author" id="main-author">- Steve Jobs</div>
-
-        <div class="actions">
-            <button class="btn" onclick="copyQuote()">Copier</button>
-            <button class="btn" onclick="shareTwitter()">Partager sur X</button>
-        </div>
-
-        <div class="past-results">
-            <h3 style="margin-top:0; text-align:center">📊 Scores d'hier</h3>
-            <div class="result-row"><span>1. Steve Jobs</span><span>58%</span></div>
-            <div class="result-row"><span>2. W. Churchill</span><span>24%</span></div>
-            <div class="result-row"><span>3. Mark Twain</span><span>18%</span></div>
-        </div>
-    </section>
-
-    <div class="video-container">
-        <div class="video-placeholder">
-            <p>▶ VIDÉO DU JOUR</p>
-        </div>
+    <div class="past-results">
+        <div class="result-row"><span>01. Steve Jobs</span><strong>58%</strong></div>
+        <div class="result-row"><span>02. W. Churchill</span><span>24%</span></div>
+        <div class="result-row"><span>03. Mark Twain</span><span>18%</span></div>
     </div>
 
-    <section class="voting-section">
-        <div class="voting-header">
-            <h2 style="font-family: 'Playfair Display', serif;">Votez pour demain</h2>
-            <p>Cliquez sur une case pour choisir, puis validez.</p>
-        </div>
+    <br><br>
 
-        <div class="candidates-grid" id="candidates-list"></div>
-    </section>
+    <div class="actions">
+        <button class="btn" onclick="copyQuote()">Copier</button>
+        <button class="btn" onclick="shareTwitter()">Partager</button>
+    </div>
+</section>
 
-    <footer>&copy; 2025 Quote of the Day.</footer>
+<div class="video-container">
+    <div class="video-placeholder">
+        <p>LECTURE VIDÉO</p>
+    </div>
 </div>
 
-<div id="confirm-btn-container">
-    <button class="btn-confirm" onclick="lockVote()">CONFIRMER MON VOTE ✅</button>
+<section class="voting-section">
+    <div class="voting-header">
+        <h2>La Sélection de Demain</h2>
+        <p>Choisissez votre citation favorite. Résultats révélés à 10h00.</p>
+    </div>
+
+    <div class="candidates-grid" id="candidates-list">
+    </div>
+</section>
+
+<div id="confirm-area">
+    <button class="btn-confirm" id="lock-btn" onclick="lockVote()">Verrouiller le vote</button>
+
+    <div class="success-message" id="success-msg">
+        Vote enregistré avec succès. <br>
+        <span style="font-size: 0.7rem; opacity: 0.7; margin-top:5px; display:block;">Rendez-vous demain 10h00.</span>
+    </div>
 </div>
 
 <script>
@@ -357,7 +399,7 @@
             const div = document.createElement('div');
             div.className = 'candidate';
             div.onclick = () => selectCandidate(index);
-            div.innerHTML = `<div class="candidate-text">"${quote.text}"</div><div class="candidate-author">- ${quote.author}</div>`;
+            div.innerHTML = `<div class="candidate-text">"${quote.text}"</div><div class="candidate-author">${quote.author}</div>`;
             container.appendChild(div);
         });
     }
@@ -368,21 +410,30 @@
     function selectCandidate(index) {
         if (isLocked) return;
         selectedIndex = index;
+
+        // Visuel Sélection
         document.querySelectorAll('.candidate').forEach((el, idx) => {
             if (idx === index) el.classList.add('selected');
             else el.classList.remove('selected');
         });
-        document.getElementById('confirm-btn-container').style.display = 'block';
+
+        // Afficher le bouton Noir
+        document.getElementById('lock-btn').style.display = 'block';
     }
 
     function lockVote() {
         if (selectedIndex === null) return;
         isLocked = true;
-        document.getElementById('confirm-btn-container').style.display = 'none';
+
+        // 1. Gérer l'interface (Bouton disparait, Message apparait)
+        document.getElementById('lock-btn').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+
+        // 2. Changer le style des cartes
         document.querySelectorAll('.candidate').forEach((el, idx) => {
             if (idx === selectedIndex) {
                 el.classList.remove('selected');
-                el.classList.add('locked-selection'); // C'est ici que ça devient vert !
+                el.classList.add('locked-selection'); // Le fameux Vert Anglais
             } else {
                 el.classList.add('dimmed');
             }
@@ -396,16 +447,23 @@
         target.setHours(10, 0, 0, 0);
         if (now > target) target.setDate(target.getDate() + 1);
         const diff = target - now;
-        const h = Math.floor((diff % (86400000)) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById("countdown").innerText = `Prochaine: ${h}h ${m}m ${s}s`;
+
+        const h = String(Math.floor((diff % (86400000)) / 3600000)).padStart(2, '0');
+        const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+
+        document.getElementById("countdown").innerText = `${h}:${m}:${s}`;
     }
 
     function copyQuote() {
         navigator.clipboard.writeText(document.getElementById("main-quote").innerText);
-        alert("Copié !");
+        // On change le texte du bouton temporairement pour dire "Copié" sans alert
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Copié !";
+        setTimeout(() => btn.innerText = originalText, 2000);
     }
+
     function shareTwitter() {
         window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(document.getElementById("main-quote").innerText), '_blank');
     }

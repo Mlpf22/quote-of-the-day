@@ -18,7 +18,7 @@
             --radius: 24px;
             --radius-sm: 16px;
             --border-thin: 1px solid #1A1A1A;
-            --amazon-color: #e67e22; /* Couleur discrète pour le bouton achat */
+            --amazon-color: #e67e22;
         }
 
         #background-layer {
@@ -36,7 +36,6 @@
         }
         h1, h2, h3, .quote-content, .landing-title, .cat-name { font-family: 'Playfair Display', serif; }
 
-        /* --- LANDING PAGE --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             min-height: 100vh; padding: 40px 20px; text-align: center; box-sizing: border-box;
@@ -62,7 +61,6 @@
         .cat-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
         .cat-name { font-weight: 700; font-size: 1.1rem; }
 
-        /* --- LIBRARY PAGE --- */
         #library-page {
             display: none; flex-direction: column; align-items: center;
             animation: fadeIn 0.5s forwards; padding-bottom: 60px; width: 100%; box-sizing: border-box;
@@ -96,41 +94,21 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             cursor: pointer; transition: transform 0.2s, background 0.2s;
             position: relative;
-            display: flex; flex-direction: column; /* Pour aligner le bouton en bas */
+            display: flex; flex-direction: column;
         }
-        .quote-card:hover {
-            transform: scale(1.01);
-            background: #fff;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
+        .quote-card:hover { transform: scale(1.01); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         .quote-card:active { transform: scale(0.99); }
 
         .quote-content { font-size: 1.3rem; line-height: 1.4; margin-bottom: 15px; color: var(--text-main); }
-        .quote-author {
-            font-size: 0.9rem; color: var(--text-light); font-weight: 500;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
+        .quote-author { font-size: 0.9rem; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- BOUTON AMAZON --- */
         .amazon-btn {
-            display: inline-block;
-            margin-top: 20px;
-            align-self: flex-start;
-            font-size: 0.75rem;
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 700;
-            border: 1px solid #ccc;
-            padding: 8px 16px;
-            border-radius: 50px;
-            transition: all 0.2s;
-            background: #fdfdfd;
+            display: inline-block; margin-top: 20px; align-self: flex-start;
+            font-size: 0.75rem; color: var(--text-main); text-decoration: none; font-weight: 700;
+            border: 1px solid #ccc; padding: 8px 16px; border-radius: 50px;
+            transition: all 0.2s; background: #fdfdfd;
         }
-        .amazon-btn:hover {
-            background: black;
-            color: white;
-            border-color: black;
-        }
+        .amazon-btn:hover { background: black; color: white; border-color: black; }
 
         .copy-feedback {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
@@ -183,6 +161,14 @@
 
 <div class="copy-feedback" id="copy-msg">Copied to clipboard! ✨</div>
 
+<footer style="text-align: center; padding: 40px 20px; font-size: 0.7rem; color: #aaa; border-top: 1px solid #eee; margin-top: 50px;">
+    <p>&copy; 2025 My Quote of the Day. All rights reserved.</p>
+    <p style="margin-top: 10px;">
+        As an Amazon Associate, I earn from qualifying purchases.<br>
+        This site participates in the Amazon Services LLC Associates Program.
+    </p>
+</footer>
+
 <script>
     const backgrounds = {
         'Landing': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E📚%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E✨%3C/text%3E%3C/svg%3E",
@@ -193,8 +179,6 @@
         'Rap & Music': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎤%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🎧%3C/text%3E%3Ctext x='20' y='90' font-size='25'%3E💿%3C/text%3E%3C/svg%3E"
     };
 
-    // --- EXEMPLE : COMMENT AJOUTER UN LIEN AMAZON ---
-    // Ajoute simplement : amazonLink: "TON_LIEN_PARTENAIRE_ICI"
     const database = {
         'Motivation': [
             {
@@ -219,7 +203,11 @@
                 amazonLink: "https://amzn.to/480vpu4"
             },
             { text: "Success isn't overnight. It's when every day you get a little better than the day before.", author: "Dwayne Johnson" },
-            { text: "If you're afraid to fail, then you're probably going to fail.", author: "Kobe Bryant", amazonLink: "https://amzn.to/484dDYt" },
+            {
+                text: "If you're afraid to fail, then you're probably going to fail.",
+                author: "Kobe Bryant",
+                amazonLink: "https://amzn.to/484dDYt"
+            },
             { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
             { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
             { text: "The more difficult the victory, the greater the happiness in winning.", author: "Pelé" },
@@ -256,7 +244,7 @@
             { text: "Reality is wrong. Dreams are for real.", author: "Tupac Shakur" },
             { text: "For every dark night, there's a brighter day.", author: "Tupac Shakur" },
             { text: "I'm not a businessman; I'm a business, man.", author: "Jay-Z" },
-            { text: "Look, if you had one shot, or one opportunity... would you capture it, or just let it slip?", author: "Eminem" },
+            { text: "Look, if you had one shot, or one opportunity... would you capture it, or just let it slip.", author: "Eminem" },
             { text: "Jealousy is just love and hate at the same time.", author: "Drake" },
             { text: "Shoot for the stars, so if you fall you land on a cloud.", author: "Kanye West" },
             { text: "Life without dreaming is a life without meaning.", author: "Wale" },
@@ -326,16 +314,6 @@
             setTimeout(() => { msg.style.display = 'none'; }, 2000);
         });
     }
-<footer style="text-align: center; padding: 40px 20px; font-size: 0.7rem; color: #aaa; border-top: 1px solid #eee; margin-top: 50px;">
-        <p>&copy; 2025 My Quote of the Day. All rights reserved.</p>
-        <p style="margin-top: 10px;">
-            As an Amazon Associate, I earn from qualifying purchases.<br>
-            This site participates in the Amazon Services LLC Associates Program.
-        </p>
-    </footer>
-
-    <script>
 </script>
 </body>
-
 </html>

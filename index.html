@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Daily Quote</title>
+    <title>The Quote Library</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,130 +13,116 @@
     <style>
         :root {
             --bg-color: #F9F9FA;
-            --surface-color: #FFFFFF;
             --text-main: #1A1A1A;
             --text-light: #888888;
             --radius: 24px;
             --radius-sm: 16px;
-            --success: #2F9E44;
-            --success-bg: #E8F5E9;
             --border-thin: 1px solid #1A1A1A;
         }
 
+        /* --- BACKGROUND LAYER --- */
         #background-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; opacity: 0.12; pointer-events: none;
             transition: background-image 0.3s ease; background-repeat: repeat;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E✨%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E🌍%3C/text%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E📚%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E✨%3C/text%3E%3C/svg%3E");
         }
         @media (max-width: 600px) { #background-layer { background-size: 120px 120px; } }
         @media (min-width: 601px) { #background-layer { background-size: 200px 200px; } }
 
+        /* --- BASE STYLES --- */
         body {
             margin: 0; padding: 0; color: var(--text-main); min-height: 100vh;
             font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden;
         }
-        h1, h2, h3, .quote-text, .landing-title, .cat-name, .candidate-text, .rank-quote { font-family: 'Playfair Display', serif; }
+        h1, h2, h3, .quote-content, .landing-title, .cat-name { font-family: 'Playfair Display', serif; }
 
+        /* --- LANDING PAGE --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; padding: 20px; text-align: center; box-sizing: border-box;
+            min-height: 100vh; padding: 40px 20px; text-align: center; box-sizing: border-box;
         }
         .landing-title { font-size: 3.5rem; margin-bottom: 10px; line-height: 1.1; }
         .landing-subtitle { color: var(--text-light); max-width: 400px; line-height: 1.6; margin-bottom: 50px; }
 
-        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 600px; }
+        .category-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            width: 100%; max-width: 800px;
+        }
+        /* Sur PC on peut mettre 3 colonnes si on a 5 catégories */
+        @media (min-width: 700px) { .category-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
         .category-card {
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); padding: 30px 20px;
             border-radius: var(--radius); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: var(--border-thin);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .category-card:active { transform: scale(0.98); }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .cat-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
         .cat-name { font-weight: 700; font-size: 1.1rem; }
 
-        #app-page {
+        /* --- LIBRARY PAGE (LISTE) --- */
+        #library-page {
             display: none; flex-direction: column; align-items: center;
-            animation: fadeIn 0.5s forwards; padding-bottom: 100px; width: 100%; box-sizing: border-box;
+            animation: fadeIn 0.5s forwards; padding-bottom: 60px; width: 100%; box-sizing: border-box;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         header {
             width: 100%; padding: 30px 20px 0 20px; display: flex;
             justify-content: space-between; align-items: center; max-width: 800px;
-            margin-bottom: 30px; box-sizing: border-box;
+            margin-bottom: 40px; box-sizing: border-box;
         }
         .back-btn {
             cursor: pointer; font-size: 1.2rem; background: white; width: 45px; height: 45px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: var(--border-thin);
         }
-        .timer-badge {
-            background: white; padding: 10px 20px; border-radius: 50px;
-            font-size: 0.9rem; font-weight: 600; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            font-variant-numeric: tabular-nums; border: var(--border-thin);
+        .page-title {
+            font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            background: white; padding: 10px 20px; border-radius: 50px; border: var(--border-thin);
         }
 
-        .hero-section { text-align: center; padding: 0 20px; max-width: 650px; width: 100%; box-sizing: border-box; }
-        .category-label {
-            background: #eee; padding: 6px 14px; border-radius: 20px;
-            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
-            font-weight: 700; margin-bottom: 25px; display: inline-block; border: 1px solid rgba(0,0,0,0.1);
+        .quotes-list {
+            width: 100%; max-width: 800px; padding: 0 20px; box-sizing: border-box;
+            display: flex; flex-direction: column; gap: 20px;
         }
-        .quote-text { font-size: 2rem; line-height: 1.3; margin-bottom: 20px; }
-        .quote-author { color: var(--text-light); font-style: italic; margin-bottom: 40px; display: block; }
 
-        .past-results {
-            background: rgba(255, 255, 255, 0.95); border-radius: var(--radius); padding: 25px;
-            width: 100%; max-width: 500px; margin: 0 auto 30px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); box-sizing: border-box; border: var(--border-thin);
-        }
-        .result-row { display: flex; flex-direction: column; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ddd; text-align: left; }
-        .result-row:last-child { border: none; margin: 0; padding: 0; }
-
-        .rank-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
-        .rank-name { font-weight: 700; }
-        .rank-pct { font-weight: 700; color: black; }
-        .rank-quote { font-size: 0.9rem; font-style: italic; color: #555; line-height: 1.4; }
-        .winner-row .rank-quote { display: none; }
-
-        .instruction-text {
-            font-size: 0.9rem; color: var(--text-main); margin-bottom: 60px;
-            line-height: 1.5; opacity: 0.8; animation: bounceIn 1s ease;
-        }
-        @keyframes bounceIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 0.8; transform: translateY(0); } }
-
-        .voting-section { width: 100%; max-width: 800px; padding: 0 20px; box-sizing: border-box; }
-        .candidate {
-            background: rgba(255, 255, 255, 0.95); padding: 25px; margin-bottom: 15px;
-            border-radius: var(--radius-sm); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        .quote-card {
+            background: rgba(255, 255, 255, 0.95); padding: 30px;
+            border-radius: var(--radius-sm);
             border: var(--border-thin);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            cursor: pointer; transition: transform 0.2s, background 0.2s;
+            position: relative;
         }
-        .candidate.selected { border: 2px solid black; background: #fff; }
-        .candidate.locked-selection { background-color: var(--success-bg); border: 1px solid var(--success); color: #1b5e20; }
-        .candidate.dimmed { opacity: 0.4; pointer-events: none; }
+        .quote-card:hover {
+            transform: scale(1.01);
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .quote-card:active { transform: scale(0.99); }
 
-        #confirm-area {
+        .quote-content { font-size: 1.3rem; line-height: 1.4; margin-bottom: 15px; color: var(--text-main); }
+        .quote-author {
+            font-size: 0.9rem; color: var(--text-light); font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Petit message "Copied" qui apparaît au clic */
+        .copy-feedback {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 999; width: 90%; max-width: 350px;
-        }
-        .btn-confirm {
-            width: 100%; background: black; color: white; padding: 20px;
-            border-radius: 50px; border: 1px solid black; font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25); cursor: pointer; font-size: 1.1rem; display: none;
-        }
-        .success-message {
-            display: none; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px);
-            color: white; padding: 18px 25px; border-radius: 50px; text-align: center;
-            font-size: 0.95rem; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            background: black; color: white; padding: 12px 24px; border-radius: 50px;
+            font-size: 0.9rem; display: none; z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         @media (max-width: 600px) {
-            .landing-title { font-size: 2.5rem; }
+            .landing-title { font-size: 2.8rem; }
             .category-grid { grid-template-columns: 1fr; max-width: 320px; }
-            .quote-text { font-size: 1.6rem; }
-            header { padding-top: 20px; }
+            .quote-content { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -145,8 +131,9 @@
 <div id="background-layer"></div>
 
 <div id="landing-page">
-    <div class="landing-title">Daily Quote.</div>
-    <p class="landing-subtitle">Choose your universe.</p>
+    <div class="landing-title">The Library.</div>
+    <p class="landing-subtitle">Curated wisdom. Tap to copy.</p>
+
     <div class="category-grid">
         <div class="category-card" onclick="openCategory('Motivation')">
             <span class="cat-icon">🔥</span><span class="cat-name">Motivation</span>
@@ -160,249 +147,142 @@
         <div class="category-card" onclick="openCategory('Humor')">
             <span class="cat-icon">🎭</span><span class="cat-name">Humor</span>
         </div>
+        <div class="category-card" onclick="openCategory('Rap & Music')">
+            <span class="cat-icon">🎤</span><span class="cat-name">Rap & Music</span>
+        </div>
     </div>
 </div>
 
-<div id="app-page">
+<div id="library-page">
     <header>
         <button class="back-btn" onclick="goHome()">←</button>
-        <div class="timer-badge" id="countdown">--:--:--</div>
+        <div class="page-title" id="current-title">Category</div>
     </header>
 
-    <section class="hero-section">
-        <span class="category-label" id="current-category-label">CATEGORY</span>
-        <div class="quote-text" id="main-quote">Loading...</div>
-        <div class="quote-author" id="main-author"></div>
-
-        <div class="past-results" id="past-results-container"></div>
-
-        <div class="instruction-text">
-            ↓ Vote below for tomorrow's quote.<br>
-            The winning selection is revealed daily at 10:00 AM.
-        </div>
-    </section>
-
-    <section class="voting-section">
-        <div id="candidates-list"></div>
-    </section>
+    <div class="quotes-list" id="quotes-container">
+    </div>
 </div>
 
-<div id="confirm-area">
-    <button class="btn-confirm" id="lock-btn" onclick="lockVote()">Confirm Vote</button>
-    <div class="success-message" id="success-msg">Choice Locked! ✅</div>
-</div>
+<div class="copy-feedback" id="copy-msg">Copied to clipboard! ✨</div>
 
 <script>
+    // --- PATTERNS ---
     const backgrounds = {
-        'Landing': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E✨%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E🌍%3C/text%3E%3C/svg%3E",
+        'Landing': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E📚%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E✨%3C/text%3E%3C/svg%3E",
         'Motivation': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E🔥%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🚀%3C/text%3E%3Ctext x='20' y='90' font-size='20'%3E💪%3C/text%3E%3C/svg%3E",
         'Success & Sport': "data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🏆%3C/text%3E%3Ctext x='70' y='80' font-size='35'%3E⚽%3C/text%3E%3Ctext x='20' y='100' font-size='30'%3E🏀%3C/text%3E%3Ctext x='80' y='30' font-size='25'%3E🥇%3C/text%3E%3C/svg%3E",
         'Philosophy': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🏛️%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E📜%3C/text%3E%3Ctext x='20' y='90' font-size='25'%3E🕯️%3C/text%3E%3C/svg%3E",
-        'Humor': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎭%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E😄%3C/text%3E%3Ctext x='20' y='90' font-size='30'%3E🤣%3C/text%3E%3C/svg%3E"
+        'Humor': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎭%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E😄%3C/text%3E%3Ctext x='20' y='90' font-size='30'%3E🤣%3C/text%3E%3C/svg%3E",
+        'Rap & Music': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎤%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🎧%3C/text%3E%3Ctext x='20' y='90' font-size='25'%3E💿%3C/text%3E%3C/svg%3E"
     };
 
+    // --- THE WIKI DATABASE (10 Quotes per Category) ---
     const database = {
-        'Motivation': {
-            current: { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-            past: [
-                { rank: 1, name: "Winner: Steve Jobs", pct: "58%", quote: "The only way to do great work is to love what you do." },
-                { rank: 2, name: "2nd: W. Churchill", pct: "24%", quote: "Success is walking from failure to failure with no loss of enthusiasm." },
-                { rank: 3, name: "3rd: Mark Twain", pct: "18%", quote: "They didn't know it was impossible so they did it." }
-            ],
-            candidates: [
-                { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-                { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
-                { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" }
-            ]
-        },
-        'Success & Sport': {
-            current: { text: "I've missed more than 9000 shots in my career. And that is why I succeed.", author: "Michael Jordan" },
-            past: [
-                { rank: 1, name: "Winner: Michael Jordan", pct: "62%", quote: "I've missed more than 9000 shots in my career..." },
-                { rank: 2, name: "2nd: Kobe Bryant", pct: "28%", quote: "Everything negative - pressure, challenges - is all an opportunity for me to rise." },
-                { rank: 3, name: "3rd: Usain Bolt", pct: "10%", quote: "I trained 4 years to run only 9 seconds." }
-            ],
-            candidates: [
-                { text: "Success isn't overnight. It's when every day you get a little better than the day before.", author: "Dwayne 'The Rock' Johnson" },
-                { text: "If you're afraid to fail, then you're probably going to fail.", author: "Kobe Bryant" },
-                { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" }
-            ]
-        },
-        'Philosophy': {
-            current: { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
-            past: [
-                { rank: 1, name: "Winner: F. Nietzsche", pct: "45%", quote: "Without music, life would be a mistake." },
-                { rank: 2, name: "2nd: Socrates", pct: "35%", quote: "The only true wisdom is in knowing you know nothing." },
-                { rank: 3, name: "3rd: Aristotle", pct: "20%", quote: "Knowing yourself is the beginning of all wisdom." }
-            ],
-            candidates: [
-                { text: "I think, therefore I am.", author: "René Descartes" },
-                { text: "Hell is other people.", author: "Jean-Paul Sartre" },
-                { text: "The unexamined life is not worth living.", author: "Socrates" }
-            ]
-        },
-        'Humor': {
-            current: { text: "I can resist everything except temptation.", author: "Oscar Wilde" },
-            past: [
-                { rank: 1, name: "Winner: Oscar Wilde", pct: "50%", quote: "I can resist everything except temptation." },
-                { rank: 2, name: "2nd: Groucho Marx", pct: "30%", quote: "I refuse to join any club that would have me as a member." },
-                { rank: 3, name: "3rd: Albert Einstein", pct: "20%", quote: "Two things are infinite: the universe and human stupidity." }
-            ],
-            candidates: [
-                { text: "Common sense is like deodorant. The people who need it most never use it.", author: "Bill Murray" },
-                { text: "I'm not superstitious, but I am a little stitious.", author: "Michael Scott" },
-                { text: "I walked into a bar... ouch.", author: "Dad Joke" }
-            ]
-        }
+        'Motivation': [
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+            { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+            { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis" },
+            { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
+            { text: "Dream big and dare to fail.", author: "Norman Vaughan" }
+        ],
+        'Success & Sport': [
+            { text: "I've missed more than 9000 shots in my career. And that is why I succeed.", author: "Michael Jordan" },
+            { text: "Success isn't overnight. It's when every day you get a little better than the day before.", author: "Dwayne Johnson" },
+            { text: "If you're afraid to fail, then you're probably going to fail.", author: "Kobe Bryant" },
+            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+            { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
+            { text: "The more difficult the victory, the greater the happiness in winning.", author: "Pelé" },
+            { text: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+            { text: "Champions keep playing until they get it right.", author: "Billie Jean King" },
+            { text: "I don't count my sit-ups; I only start counting when it starts hurting.", author: "Muhammad Ali" },
+            { text: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" }
+        ],
+        'Philosophy': [
+            { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
+            { text: "I think, therefore I am.", author: "René Descartes" },
+            { text: "Hell is other people.", author: "Jean-Paul Sartre" },
+            { text: "The unexamined life is not worth living.", author: "Socrates" },
+            { text: "We suffer more often in imagination than in reality.", author: "Seneca" },
+            { text: "Man is born free, and everywhere he is in chains.", author: "Jean-Jacques Rousseau" },
+            { text: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
+            { text: "He who has a why to live for can bear almost any how.", author: "Friedrich Nietzsche" },
+            { text: "Happiness depends upon ourselves.", author: "Aristotle" },
+            { text: "Deadly enemies are more to be feared than strange enemies.", author: "Sun Tzu" }
+        ],
+        'Humor': [
+            { text: "I can resist everything except temptation.", author: "Oscar Wilde" },
+            { text: "Common sense is like deodorant. The people who need it most never use it.", author: "Bill Murray" },
+            { text: "I'm not superstitious, but I am a little stitious.", author: "Michael Scott" },
+            { text: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.", author: "Albert Einstein" },
+            { text: "Always borrow money from a pessimist. He won't expect it back.", author: "Oscar Wilde" },
+            { text: "My bed is a magical place where I suddenly remember everything I forgot to do.", author: "Unknown" },
+            { text: "I'm on a whiskey diet. I've lost three days already.", author: "Tommy Cooper" },
+            { text: "If I were two-faced, would I be wearing this one?", author: "Abraham Lincoln" },
+            { text: "The best way to teach your kids about taxes is by eating 30% of their ice cream.", author: "Bill Murray" },
+            { text: "Behind every great man is a woman rolling her eyes.", author: "Jim Carrey" }
+        ],
+        'Rap & Music': [
+            { text: "Reality is wrong. Dreams are for real.", author: "Tupac Shakur" },
+            { text: "For every dark night, there's a brighter day.", author: "Tupac Shakur" },
+            { text: "I'm not a businessman; I'm a business, man.", author: "Jay-Z" },
+            { text: "Look, if you had one shot, or one opportunity... would you capture it, or just let it slip?", author: "Eminem" },
+            { text: "Jealousy is just love and hate at the same time.", author: "Drake" },
+            { text: "Shoot for the stars, so if you fall you land on a cloud.", author: "Kanye West" },
+            { text: "Life without dreaming is a life without meaning.", author: "Wale" },
+            { text: "I'd rather die enormous than live dormant.", author: "Jay-Z" },
+            { text: "It's beauty in the struggle, ugliness in the success.", author: "J. Cole" },
+            { text: "Limitless, like the sky that I fly in.", author: "Kendrick Lamar" }
+        ]
     };
-
-    let currentCategoryName = ''; // Pour savoir quelle clé sauvegarder
 
     function openCategory(catName) {
-        currentCategoryName = catName;
         document.getElementById('landing-page').style.display = 'none';
-        document.getElementById('app-page').style.display = 'flex';
-        document.getElementById('current-category-label').innerText = catName;
+        document.getElementById('library-page').style.display = 'flex';
+        document.getElementById('current-title').innerText = catName;
         document.getElementById('background-layer').style.backgroundImage = `url("${backgrounds[catName]}")`;
 
-        const data = database[catName];
-        document.getElementById('main-quote').innerText = `"${data.current.text}"`;
-        document.getElementById('main-author').innerText = `- ${data.current.author}`;
-
-        renderPastResults(data.past);
-        renderCandidates(data.candidates);
-
-        // VERIFIER SI L'UTILISATEUR A DÉJÀ VOTÉ POUR CETTE CATÉGORIE
-        checkLocalVote(catName);
-
+        renderQuotes(catName);
         window.scrollTo(0, 0);
     }
 
-    function renderPastResults(pastData) {
-        const container = document.getElementById('past-results-container');
-        container.innerHTML = '';
-        pastData.forEach((item, index) => {
-            const isWinner = index === 0;
-            const row = document.createElement('div');
-            row.className = `result-row ${isWinner ? 'winner-row' : ''}`;
-            row.innerHTML = `
-                <div class="rank-header">
-                    <span class="rank-name">${item.name}</span>
-                    <span class="rank-pct">${item.pct}</span>
-                </div>
-                <div class="rank-quote">"${item.quote}"</div>
-            `;
-            container.appendChild(row);
-        });
-    }
-
     function goHome() {
-        document.getElementById('app-page').style.display = 'none';
+        document.getElementById('library-page').style.display = 'none';
         document.getElementById('landing-page').style.display = 'flex';
         document.getElementById('background-layer').style.backgroundImage = `url("${backgrounds['Landing']}")`;
-        resetVoteUI();
     }
 
-    function renderCandidates(list) {
-        const container = document.getElementById('candidates-list');
-        container.innerHTML = '';
-        list.forEach((quote, index) => {
-            const div = document.createElement('div');
-            div.className = 'candidate';
-            div.id = `candidate-${index}`; // ID pour pouvoir le cibler plus tard
-            div.onclick = () => selectCandidate(index);
-            div.innerHTML = `<div class="candidate-text" style="font-family: 'Playfair Display', serif;">"${quote.text}"</div><small style="opacity:0.6">${quote.author}</small>`;
-            container.appendChild(div);
+    function renderQuotes(catName) {
+        const container = document.getElementById('quotes-container');
+        container.innerHTML = ''; // Reset list
+
+        const list = database[catName];
+
+        list.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'quote-card';
+            card.onclick = () => copyToClipboard(item.text, item.author);
+
+            card.innerHTML = `
+                <div class="quote-content">"${item.text}"</div>
+                <div class="quote-author">- ${item.author}</div>
+            `;
+            container.appendChild(card);
         });
     }
 
-    let selectedIndex = null;
-    let isLocked = false;
-
-    function selectCandidate(index) {
-        if (isLocked) return;
-        selectedIndex = index;
-        document.querySelectorAll('.candidate').forEach((el, idx) => {
-            if (idx === index) el.classList.add('selected');
-            else el.classList.remove('selected');
+    function copyToClipboard(text, author) {
+        const fullText = `"${text}" - ${author}`;
+        navigator.clipboard.writeText(fullText).then(() => {
+            const msg = document.getElementById('copy-msg');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 2000);
         });
-        document.getElementById('lock-btn').style.display = 'block';
     }
-
-    function lockVote() {
-        if (selectedIndex === null) return;
-
-        // 1. SAUVEGARDE DANS LE NAVIGATEUR (LocalStorage)
-        const voteData = {
-            index: selectedIndex,
-            date: new Date().toDateString() // Se reset si la date change
-        };
-        localStorage.setItem(`vote_${currentCategoryName}`, JSON.stringify(voteData));
-
-        // 2. APPLICATION VISUELLE
-        applyLockedState(selectedIndex);
-    }
-
-    function applyLockedState(index) {
-        isLocked = true;
-        const btn = document.getElementById('lock-btn');
-        const msg = document.getElementById('success-msg');
-
-        btn.style.display = 'none';
-        msg.style.display = 'block';
-
-        document.querySelectorAll('.candidate').forEach((el, idx) => {
-            if (idx === index) {
-                el.classList.remove('selected');
-                el.classList.add('locked-selection');
-            } else {
-                el.classList.add('dimmed');
-            }
-            el.onclick = null; // Désactive le clic
-        });
-
-        // Cache le message de succès après 2s si on vient de voter,
-        // mais si on charge la page déjà votée, on peut le laisser ou pas.
-        // Ici on le cache après 2s pour garder l'écran propre.
-        setTimeout(() => { msg.style.display = 'none'; }, 2000);
-    }
-
-    function checkLocalVote(catName) {
-        // Reset l'état par défaut
-        resetVoteUI();
-
-        const savedVote = localStorage.getItem(`vote_${catName}`);
-        if (savedVote) {
-            const parsed = JSON.parse(savedVote);
-            // Vérifie si le vote date d'aujourd'hui
-            if (parsed.date === new Date().toDateString()) {
-                // OUI -> On applique le lock immédiatement
-                selectedIndex = parsed.index;
-                applyLockedState(parsed.index);
-            } else {
-                // NON -> C'est un vieux vote, on l'oublie
-                localStorage.removeItem(`vote_${catName}`);
-            }
-        }
-    }
-
-    function resetVoteUI() {
-        isLocked = false; selectedIndex = null;
-        document.getElementById('lock-btn').style.display = 'none';
-        document.getElementById('success-msg').style.display = 'none';
-    }
-
-    function updateTimer() {
-        const now = new Date(); let target = new Date();
-        target.setHours(10, 0, 0, 0);
-        if (now > target) target.setDate(target.getDate() + 1);
-        const diff = target - now;
-        const h = String(Math.floor((diff % (86400000)) / 3600000)).padStart(2, '0');
-        const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-        const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-        document.getElementById("countdown").innerText = `${h}:${m}:${s}`;
-    }
-    setInterval(updateTimer, 1000); updateTimer();
 </script>
 </body>
 </html>

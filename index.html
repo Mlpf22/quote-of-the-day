@@ -38,7 +38,7 @@
             margin: 0; padding: 0; color: var(--text-main); min-height: 100vh;
             font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden;
         }
-        h1, h2, h3, .quote-text, .landing-title, .cat-name, .candidate-text { font-family: 'Playfair Display', serif; }
+        h1, h2, h3, .quote-text, .landing-title, .cat-name, .candidate-text, .rank-quote { font-family: 'Playfair Display', serif; }
 
         /* --- LANDING PAGE --- */
         #landing-page {
@@ -91,22 +91,35 @@
         .quote-text { font-size: 2rem; line-height: 1.3; margin-bottom: 20px; }
         .quote-author { color: var(--text-light); font-style: italic; margin-bottom: 40px; display: block; }
 
+        /* --- TABLEAU RÉSULTATS AMÉLIORÉ --- */
         .past-results {
             background: rgba(255, 255, 255, 0.95); border-radius: var(--radius); padding: 25px;
-            width: 100%; max-width: 350px; margin: 0 auto 30px auto; /* Marge réduite ici */
+            width: 100%; max-width: 500px; /* Un peu plus large pour les quotes */
+            margin: 0 auto 30px auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.03); box-sizing: border-box; border: var(--border-thin);
         }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee; font-size: 0.9rem; }
+        .result-row {
+            display: flex; flex-direction: column; /* Passage en colonne pour avoir la place */
+            margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ddd;
+            text-align: left;
+        }
         .result-row:last-child { border: none; margin: 0; padding: 0; }
+
+        .rank-header {
+            display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem;
+        }
+        .rank-name { font-weight: 700; }
+        .rank-pct { font-weight: 700; color: black; }
+        .rank-quote {
+            font-size: 0.9rem; font-style: italic; color: #555; line-height: 1.4;
+        }
+        /* Style spécifique pour le gagnant (déjà affiché en gros) */
+        .winner-row .rank-quote { display: none; } /* On cache la quote du gagnant car elle est déjà en haut */
 
         /* --- NEW INSTRUCTION TEXT --- */
         .instruction-text {
-            font-size: 0.9rem;
-            color: var(--text-main);
-            margin-bottom: 60px;
-            line-height: 1.5;
-            opacity: 0.8;
-            animation: bounceIn 1s ease;
+            font-size: 0.9rem; color: var(--text-main); margin-bottom: 60px;
+            line-height: 1.5; opacity: 0.8; animation: bounceIn 1s ease;
         }
         @keyframes bounceIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 0.8; transform: translateY(0); } }
 
@@ -178,10 +191,7 @@
         <div class="quote-text" id="main-quote">Loading...</div>
         <div class="quote-author" id="main-author"></div>
 
-        <div class="past-results">
-            <div class="result-row"><span>01. Winner</span><strong>58%</strong></div>
-            <div class="result-row"><span>02. Challenger A</span><span>24%</span></div>
-            <div class="result-row"><span>03. Challenger B</span><span>18%</span></div>
+        <div class="past-results" id="past-results-container">
         </div>
 
         <div class="instruction-text">
@@ -210,9 +220,15 @@
         'Humor': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎭%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E😄%3C/text%3E%3Ctext x='20' y='90' font-size='30'%3E🤣%3C/text%3E%3C/svg%3E"
     };
 
+    // --- DATABASE ÉTENDUE (AVEC RÉSULTATS D'HIER) ---
     const database = {
         'Motivation': {
             current: { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            past: [
+                { rank: 1, name: "Winner: Steve Jobs", pct: "58%", quote: "The only way to do great work is to love what you do." },
+                { rank: 2, name: "2nd: W. Churchill", pct: "24%", quote: "Success is walking from failure to failure with no loss of enthusiasm." },
+                { rank: 3, name: "3rd: Mark Twain", pct: "18%", quote: "They didn't know it was impossible so they did it." }
+            ],
             candidates: [
                 { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
                 { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
@@ -221,6 +237,11 @@
         },
         'Success & Sport': {
             current: { text: "I've missed more than 9000 shots in my career. And that is why I succeed.", author: "Michael Jordan" },
+            past: [
+                { rank: 1, name: "Winner: Michael Jordan", pct: "62%", quote: "I've missed more than 9000 shots in my career..." },
+                { rank: 2, name: "2nd: Kobe Bryant", pct: "28%", quote: "Everything negative - pressure, challenges - is all an opportunity for me to rise." },
+                { rank: 3, name: "3rd: Usain Bolt", pct: "10%", quote: "I trained 4 years to run only 9 seconds." }
+            ],
             candidates: [
                 { text: "Success isn't overnight. It's when every day you get a little better than the day before.", author: "Dwayne 'The Rock' Johnson" },
                 { text: "If you're afraid to fail, then you're probably going to fail.", author: "Kobe Bryant" },
@@ -229,6 +250,11 @@
         },
         'Philosophy': {
             current: { text: "Without music, life would be a mistake.", author: "Friedrich Nietzsche" },
+            past: [
+                { rank: 1, name: "Winner: F. Nietzsche", pct: "45%", quote: "Without music, life would be a mistake." },
+                { rank: 2, name: "2nd: Socrates", pct: "35%", quote: "The only true wisdom is in knowing you know nothing." },
+                { rank: 3, name: "3rd: Aristotle", pct: "20%", quote: "Knowing yourself is the beginning of all wisdom." }
+            ],
             candidates: [
                 { text: "I think, therefore I am.", author: "René Descartes" },
                 { text: "Hell is other people.", author: "Jean-Paul Sartre" },
@@ -237,6 +263,11 @@
         },
         'Humor': {
             current: { text: "I can resist everything except temptation.", author: "Oscar Wilde" },
+            past: [
+                { rank: 1, name: "Winner: Oscar Wilde", pct: "50%", quote: "I can resist everything except temptation." },
+                { rank: 2, name: "2nd: Groucho Marx", pct: "30%", quote: "I refuse to join any club that would have me as a member." },
+                { rank: 3, name: "3rd: Albert Einstein", pct: "20%", quote: "Two things are infinite: the universe and human stupidity." }
+            ],
             candidates: [
                 { text: "Common sense is like deodorant. The people who need it most never use it.", author: "Bill Murray" },
                 { text: "I'm not superstitious, but I am a little stitious.", author: "Michael Scott" },
@@ -252,11 +283,36 @@
         document.getElementById('background-layer').style.backgroundImage = `url("${backgrounds[catName]}")`;
 
         const data = database[catName];
+        // Mise à jour du gagnant (Grand Texte)
         document.getElementById('main-quote').innerText = `"${data.current.text}"`;
         document.getElementById('main-author').innerText = `- ${data.current.author}`;
 
+        // Mise à jour du tableau des résultats (Dynamique)
+        renderPastResults(data.past);
+
         renderCandidates(data.candidates);
         window.scrollTo(0, 0);
+    }
+
+    // Fonction pour générer le tableau des résultats
+    function renderPastResults(pastData) {
+        const container = document.getElementById('past-results-container');
+        container.innerHTML = ''; // Reset
+
+        pastData.forEach((item, index) => {
+            const isWinner = index === 0;
+            const row = document.createElement('div');
+            row.className = `result-row ${isWinner ? 'winner-row' : ''}`;
+
+            row.innerHTML = `
+                <div class="rank-header">
+                    <span class="rank-name">${item.name}</span>
+                    <span class="rank-pct">${item.pct}</span>
+                </div>
+                <div class="rank-quote">"${item.quote}"</div>
+            `;
+            container.appendChild(row);
+        });
     }
 
     function goHome() {

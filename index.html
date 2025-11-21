@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Quote Library</title>
+    <title>My Quote of the Day</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,19 +45,31 @@
         .landing-title { font-size: 3.5rem; margin-bottom: 10px; line-height: 1.1; }
         .landing-subtitle { color: var(--text-light); max-width: 400px; line-height: 1.6; margin-bottom: 50px; }
 
+        /* MODIF: SYSTEME FLEXBOX POUR CENTRAGE PARFAIT */
         .category-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-            width: 100%; max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Centre les éléments sur la dernière ligne */
+            gap: 15px;
+            width: 100%; max-width: 900px;
         }
-        /* Sur PC on peut mettre 3 colonnes si on a 5 catégories */
-        @media (min-width: 700px) { .category-grid { grid-template-columns: 1fr 1fr 1fr; } }
 
         .category-card {
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); padding: 30px 20px;
             border-radius: var(--radius); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: var(--border-thin);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+
+            /* Largeur calculée pour 2 colonnes sur mobile */
+            width: calc(50% - 10px);
+            box-sizing: border-box;
         }
+
+        /* Sur PC : 3 colonnes */
+        @media (min-width: 700px) {
+            .category-card { width: calc(33.33% - 10px); }
+        }
+
         .category-card:active { transform: scale(0.98); }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .cat-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
@@ -111,7 +123,6 @@
             text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* Petit message "Copied" qui apparaît au clic */
         .copy-feedback {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: black; color: white; padding: 12px 24px; border-radius: 50px;
@@ -121,7 +132,7 @@
 
         @media (max-width: 600px) {
             .landing-title { font-size: 2.8rem; }
-            .category-grid { grid-template-columns: 1fr; max-width: 320px; }
+            /* Sur mobile très petit, on garde 100% de largeur pour éviter que ce soit trop serré, sinon le flexbox gère */
             .quote-content { font-size: 1.1rem; }
         }
     </style>
@@ -131,7 +142,7 @@
 <div id="background-layer"></div>
 
 <div id="landing-page">
-    <div class="landing-title">The Library.</div>
+    <div class="landing-title">My Quote of the Day.</div>
     <p class="landing-subtitle">Curated wisdom. Tap to copy.</p>
 
     <div class="category-grid">
@@ -159,14 +170,12 @@
         <div class="page-title" id="current-title">Category</div>
     </header>
 
-    <div class="quotes-list" id="quotes-container">
-    </div>
+    <div class="quotes-list" id="quotes-container"></div>
 </div>
 
 <div class="copy-feedback" id="copy-msg">Copied to clipboard! ✨</div>
 
 <script>
-    // --- PATTERNS ---
     const backgrounds = {
         'Landing': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E📚%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E✨%3C/text%3E%3C/svg%3E",
         'Motivation': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E🔥%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🚀%3C/text%3E%3Ctext x='20' y='90' font-size='20'%3E💪%3C/text%3E%3C/svg%3E",
@@ -176,7 +185,6 @@
         'Rap & Music': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎤%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🎧%3C/text%3E%3Ctext x='20' y='90' font-size='25'%3E💿%3C/text%3E%3C/svg%3E"
     };
 
-    // --- THE WIKI DATABASE (10 Quotes per Category) ---
     const database = {
         'Motivation': [
             { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
@@ -258,7 +266,7 @@
 
     function renderQuotes(catName) {
         const container = document.getElementById('quotes-container');
-        container.innerHTML = ''; // Reset list
+        container.innerHTML = '';
 
         const list = database[catName];
 

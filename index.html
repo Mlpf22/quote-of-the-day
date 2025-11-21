@@ -18,6 +18,7 @@
             --radius: 24px;
             --radius-sm: 16px;
             --border-thin: 1px solid #1A1A1A;
+            --amazon-color: #e67e22; /* Couleur discrète pour le bouton achat */
         }
 
         #background-layer {
@@ -71,7 +72,7 @@
         header {
             width: 100%; padding: 30px 20px 0 20px; display: flex;
             justify-content: space-between; align-items: center; max-width: 800px;
-            margin-bottom: 20px; box-sizing: border-box;
+            margin-bottom: 40px; box-sizing: border-box;
         }
         .back-btn {
             cursor: pointer; font-size: 1.2rem; background: white; width: 45px; height: 45px;
@@ -83,18 +84,6 @@
             background: white; padding: 10px 20px; border-radius: 50px; border: var(--border-thin);
         }
 
-        /* --- ZONE DE PUB (NOUVEAU) --- */
-        .ad-container {
-            width: 100%; max-width: 728px;
-            margin: 0 auto 30px auto; /* Espace autour */
-            min-height: 90px; /* Taille standard d'une bannière */
-            background: rgba(0,0,0,0.03); /* Gris léger en attendant la pub */
-            border-radius: var(--radius-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; color: #aaa; letter-spacing: 1px;
-            border: 1px dashed #ccc;
-        }
-
         .quotes-list {
             width: 100%; max-width: 800px; padding: 0 20px; box-sizing: border-box;
             display: flex; flex-direction: column; gap: 20px;
@@ -102,16 +91,46 @@
 
         .quote-card {
             background: rgba(255, 255, 255, 0.95); padding: 30px;
-            border-radius: var(--radius-sm); border: var(--border-thin);
+            border-radius: var(--radius-sm);
+            border: var(--border-thin);
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             cursor: pointer; transition: transform 0.2s, background 0.2s;
             position: relative;
+            display: flex; flex-direction: column; /* Pour aligner le bouton en bas */
         }
-        .quote-card:hover { transform: scale(1.01); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .quote-card:hover {
+            transform: scale(1.01);
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
         .quote-card:active { transform: scale(0.99); }
 
         .quote-content { font-size: 1.3rem; line-height: 1.4; margin-bottom: 15px; color: var(--text-main); }
-        .quote-author { font-size: 0.9rem; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        .quote-author {
+            font-size: 0.9rem; color: var(--text-light); font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- BOUTON AMAZON --- */
+        .amazon-btn {
+            display: inline-block;
+            margin-top: 20px;
+            align-self: flex-start;
+            font-size: 0.75rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            border-radius: 50px;
+            transition: all 0.2s;
+            background: #fdfdfd;
+        }
+        .amazon-btn:hover {
+            background: black;
+            color: white;
+            border-color: black;
+        }
 
         .copy-feedback {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
@@ -151,10 +170,6 @@
             <span class="cat-icon">🎤</span><span class="cat-name">Rap & Music</span>
         </div>
     </div>
-
-    <div class="ad-container" style="margin-top: 50px;">
-        Advertisement Space
-    </div>
 </div>
 
 <div id="library-page">
@@ -162,10 +177,6 @@
         <button class="back-btn" onclick="goHome()">←</button>
         <div class="page-title" id="current-title">Category</div>
     </header>
-
-    <div class="ad-container">
-        Advertisement Space
-    </div>
 
     <div class="quotes-list" id="quotes-container"></div>
 </div>
@@ -182,9 +193,15 @@
         'Rap & Music': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎤%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🎧%3C/text%3E%3Ctext x='20' y='90' font-size='25'%3E💿%3C/text%3E%3C/svg%3E"
     };
 
+    // --- EXEMPLE : COMMENT AJOUTER UN LIEN AMAZON ---
+    // Ajoute simplement : amazonLink: "TON_LIEN_PARTENAIRE_ICI"
     const database = {
         'Motivation': [
-            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs",amazonLink: "https://amzn.to/48btIdo" },
+            {
+                text: "The only way to do great work is to love what you do.",
+                author: "Steve Jobs",
+                amazonLink: "https://amzn.to/48btIdo"
+            },
             { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
             { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
             { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
@@ -196,7 +213,11 @@
             { text: "Dream big and dare to fail.", author: "Norman Vaughan" }
         ],
         'Success & Sport': [
-            { text: "I've missed more than 9000 shots in my career. And that is why I succeed.", author: "Michael Jordan" },
+            {
+                text: "I've missed more than 9000 shots in my career. And that is why I succeed.",
+                author: "Michael Jordan",
+                amazonLink: "https://www.amazon.com/Driven-Inside-Michael-Jordan/dp/0061716990" // EXEMPLE ICI
+            },
             { text: "Success isn't overnight. It's when every day you get a little better than the day before.", author: "Dwayne Johnson" },
             { text: "If you're afraid to fail, then you're probably going to fail.", author: "Kobe Bryant" },
             { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
@@ -270,11 +291,28 @@
         list.forEach(item => {
             const card = document.createElement('div');
             card.className = 'quote-card';
-            card.onclick = () => copyToClipboard(item.text, item.author);
+            // On clic sur la carte = copier (sauf si on clique sur le bouton)
+            card.onclick = (e) => {
+                // Si on n'a pas cliqué sur le bouton amazon, on copie
+                if(!e.target.classList.contains('amazon-btn')) {
+                    copyToClipboard(item.text, item.author);
+                }
+            };
+
+            let amazonButtonHTML = '';
+            // SI UN LIEN AMAZON EXISTE POUR CETTE CITATION
+            if(item.amazonLink) {
+                amazonButtonHTML = `
+                    <a href="${item.amazonLink}" target="_blank" class="amazon-btn">
+                        📖 Get the Book
+                    </a>
+                `;
+            }
 
             card.innerHTML = `
                 <div class="quote-content">"${item.text}"</div>
                 <div class="quote-author">- ${item.author}</div>
+                ${amazonButtonHTML}
             `;
             container.appendChild(card);
         });

@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
-
     <style>
         :root {
             --bg-color: #F9F9FA;
@@ -24,7 +23,6 @@
             --border-thin: 1px solid #1A1A1A;
         }
 
-        /* --- BACKGROUND LAYER --- */
         #background-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; opacity: 0.12; pointer-events: none;
@@ -34,14 +32,12 @@
         @media (max-width: 600px) { #background-layer { background-size: 120px 120px; } }
         @media (min-width: 601px) { #background-layer { background-size: 200px 200px; } }
 
-        /* --- BASE STYLES --- */
         body {
             margin: 0; padding: 0; color: var(--text-main); min-height: 100vh;
             font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden;
         }
         h1, h2, h3, .quote-text, .landing-title, .cat-name, .candidate-text, .rank-quote { font-family: 'Playfair Display', serif; }
 
-        /* --- LANDING PAGE --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             min-height: 100vh; padding: 20px; text-align: center; box-sizing: border-box;
@@ -60,7 +56,6 @@
         .cat-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
         .cat-name { font-weight: 700; font-size: 1.1rem; }
 
-        /* --- APP PAGE --- */
         #app-page {
             display: none; flex-direction: column; align-items: center;
             animation: fadeIn 0.5s forwards; padding-bottom: 100px; width: 100%; box-sizing: border-box;
@@ -92,32 +87,20 @@
         .quote-text { font-size: 2rem; line-height: 1.3; margin-bottom: 20px; }
         .quote-author { color: var(--text-light); font-style: italic; margin-bottom: 40px; display: block; }
 
-        /* --- TABLEAU RÉSULTATS AMÉLIORÉ --- */
         .past-results {
             background: rgba(255, 255, 255, 0.95); border-radius: var(--radius); padding: 25px;
-            width: 100%; max-width: 500px; /* Un peu plus large pour les quotes */
-            margin: 0 auto 30px auto;
+            width: 100%; max-width: 500px; margin: 0 auto 30px auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.03); box-sizing: border-box; border: var(--border-thin);
         }
-        .result-row {
-            display: flex; flex-direction: column; /* Passage en colonne pour avoir la place */
-            margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ddd;
-            text-align: left;
-        }
+        .result-row { display: flex; flex-direction: column; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #ddd; text-align: left; }
         .result-row:last-child { border: none; margin: 0; padding: 0; }
 
-        .rank-header {
-            display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem;
-        }
+        .rank-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
         .rank-name { font-weight: 700; }
         .rank-pct { font-weight: 700; color: black; }
-        .rank-quote {
-            font-size: 0.9rem; font-style: italic; color: #555; line-height: 1.4;
-        }
-        /* Style spécifique pour le gagnant (déjà affiché en gros) */
-        .winner-row .rank-quote { display: none; } /* On cache la quote du gagnant car elle est déjà en haut */
+        .rank-quote { font-size: 0.9rem; font-style: italic; color: #555; line-height: 1.4; }
+        .winner-row .rank-quote { display: none; }
 
-        /* --- NEW INSTRUCTION TEXT --- */
         .instruction-text {
             font-size: 0.9rem; color: var(--text-main); margin-bottom: 60px;
             line-height: 1.5; opacity: 0.8; animation: bounceIn 1s ease;
@@ -164,7 +147,6 @@
 <div id="landing-page">
     <div class="landing-title">Daily Quote.</div>
     <p class="landing-subtitle">Choose your universe.</p>
-
     <div class="category-grid">
         <div class="category-card" onclick="openCategory('Motivation')">
             <span class="cat-icon">🔥</span><span class="cat-name">Motivation</span>
@@ -192,8 +174,7 @@
         <div class="quote-text" id="main-quote">Loading...</div>
         <div class="quote-author" id="main-author"></div>
 
-        <div class="past-results" id="past-results-container">
-        </div>
+        <div class="past-results" id="past-results-container"></div>
 
         <div class="instruction-text">
             ↓ Vote below for tomorrow's quote.<br>
@@ -212,7 +193,6 @@
 </div>
 
 <script>
-    // --- PATTERNS ---
     const backgrounds = {
         'Landing': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E✨%3C/text%3E%3Ctext x='60' y='90' font-size='30'%3E🌍%3C/text%3E%3C/svg%3E",
         'Motivation': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='30'%3E🔥%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E🚀%3C/text%3E%3Ctext x='20' y='90' font-size='20'%3E💪%3C/text%3E%3C/svg%3E",
@@ -221,7 +201,6 @@
         'Humor': "data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='40' font-size='35'%3E🎭%3C/text%3E%3Ctext x='60' y='80' font-size='30'%3E😄%3C/text%3E%3Ctext x='20' y='90' font-size='30'%3E🤣%3C/text%3E%3C/svg%3E"
     };
 
-    // --- DATABASE ÉTENDUE (AVEC RÉSULTATS D'HIER) ---
     const database = {
         'Motivation': {
             current: { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
@@ -277,34 +256,35 @@
         }
     };
 
+    let currentCategoryName = ''; // Pour savoir quelle clé sauvegarder
+
     function openCategory(catName) {
+        currentCategoryName = catName;
         document.getElementById('landing-page').style.display = 'none';
         document.getElementById('app-page').style.display = 'flex';
         document.getElementById('current-category-label').innerText = catName;
         document.getElementById('background-layer').style.backgroundImage = `url("${backgrounds[catName]}")`;
 
         const data = database[catName];
-        // Mise à jour du gagnant (Grand Texte)
         document.getElementById('main-quote').innerText = `"${data.current.text}"`;
         document.getElementById('main-author').innerText = `- ${data.current.author}`;
 
-        // Mise à jour du tableau des résultats (Dynamique)
         renderPastResults(data.past);
-
         renderCandidates(data.candidates);
+
+        // VERIFIER SI L'UTILISATEUR A DÉJÀ VOTÉ POUR CETTE CATÉGORIE
+        checkLocalVote(catName);
+
         window.scrollTo(0, 0);
     }
 
-    // Fonction pour générer le tableau des résultats
     function renderPastResults(pastData) {
         const container = document.getElementById('past-results-container');
-        container.innerHTML = ''; // Reset
-
+        container.innerHTML = '';
         pastData.forEach((item, index) => {
             const isWinner = index === 0;
             const row = document.createElement('div');
             row.className = `result-row ${isWinner ? 'winner-row' : ''}`;
-
             row.innerHTML = `
                 <div class="rank-header">
                     <span class="rank-name">${item.name}</span>
@@ -329,13 +309,16 @@
         list.forEach((quote, index) => {
             const div = document.createElement('div');
             div.className = 'candidate';
+            div.id = `candidate-${index}`; // ID pour pouvoir le cibler plus tard
             div.onclick = () => selectCandidate(index);
             div.innerHTML = `<div class="candidate-text" style="font-family: 'Playfair Display', serif;">"${quote.text}"</div><small style="opacity:0.6">${quote.author}</small>`;
             container.appendChild(div);
         });
     }
 
-    let selectedIndex = null; let isLocked = false;
+    let selectedIndex = null;
+    let isLocked = false;
+
     function selectCandidate(index) {
         if (isLocked) return;
         selectedIndex = index;
@@ -348,17 +331,61 @@
 
     function lockVote() {
         if (selectedIndex === null) return;
+
+        // 1. SAUVEGARDE DANS LE NAVIGATEUR (LocalStorage)
+        const voteData = {
+            index: selectedIndex,
+            date: new Date().toDateString() // Se reset si la date change
+        };
+        localStorage.setItem(`vote_${currentCategoryName}`, JSON.stringify(voteData));
+
+        // 2. APPLICATION VISUELLE
+        applyLockedState(selectedIndex);
+    }
+
+    function applyLockedState(index) {
         isLocked = true;
         const btn = document.getElementById('lock-btn');
         const msg = document.getElementById('success-msg');
-        btn.style.display = 'none'; msg.style.display = 'block';
+
+        btn.style.display = 'none';
+        msg.style.display = 'block';
+
         document.querySelectorAll('.candidate').forEach((el, idx) => {
-            if (idx === selectedIndex) { el.classList.remove('selected'); el.classList.add('locked-selection'); }
-            else { el.classList.add('dimmed'); }
-            el.onclick = null;
+            if (idx === index) {
+                el.classList.remove('selected');
+                el.classList.add('locked-selection');
+            } else {
+                el.classList.add('dimmed');
+            }
+            el.onclick = null; // Désactive le clic
         });
+
+        // Cache le message de succès après 2s si on vient de voter,
+        // mais si on charge la page déjà votée, on peut le laisser ou pas.
+        // Ici on le cache après 2s pour garder l'écran propre.
         setTimeout(() => { msg.style.display = 'none'; }, 2000);
     }
+
+    function checkLocalVote(catName) {
+        // Reset l'état par défaut
+        resetVoteUI();
+
+        const savedVote = localStorage.getItem(`vote_${catName}`);
+        if (savedVote) {
+            const parsed = JSON.parse(savedVote);
+            // Vérifie si le vote date d'aujourd'hui
+            if (parsed.date === new Date().toDateString()) {
+                // OUI -> On applique le lock immédiatement
+                selectedIndex = parsed.index;
+                applyLockedState(parsed.index);
+            } else {
+                // NON -> C'est un vieux vote, on l'oublie
+                localStorage.removeItem(`vote_${catName}`);
+            }
+        }
+    }
+
     function resetVoteUI() {
         isLocked = false; selectedIndex = null;
         document.getElementById('lock-btn').style.display = 'none';

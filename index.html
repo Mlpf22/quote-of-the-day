@@ -6,22 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>My Quote of the Day - Best Daily Quotes & Curated Wisdom</title>
-
-    <meta name="description" content="Discover your daily dose of wisdom. A curated library of quotes about Motivation, Success, Philosophy, and Music. Find inspiration and book recommendations every day.">
-
-    <meta name="keywords" content="daily quote, citation du jour, motivation, steve jobs quotes, success, philosophy, rap lyrics, wisdom">
-
-    <meta name="author" content="My Quote of the Day">
-
+    <meta name="description" content="Discover your daily dose of wisdom. A curated library of quotes about Motivation, Success, Philosophy, and Music.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
     <style>
-        /* ... GARDE TOUT TON CSS D'AVANT ICI (ne change rien au style) ... */
-        /* JE RECOPIE JUSTE LE DÉBUT POUR QUE TU NE PERDES PAS LE FIL */
         :root {
             --bg-color: #F9F9FA;
             --text-main: #1A1A1A;
@@ -31,8 +25,6 @@
             --border-thin: 1px solid #1A1A1A;
             --amazon-color: #e67e22;
         }
-
-        /* ... LE RESTE DE TON CSS RESTE IDENTIQUE ... */
 
         #background-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -49,6 +41,7 @@
         }
         h1, h2, h3, .quote-content, .landing-title, .cat-name { font-family: 'Playfair Display', serif; }
 
+        /* --- LANDING PAGE --- */
         #landing-page {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             min-height: 100vh; padding: 40px 20px; text-align: center; box-sizing: border-box;
@@ -74,6 +67,7 @@
         .cat-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
         .cat-name { font-weight: 700; font-size: 1.1rem; }
 
+        /* --- LIBRARY PAGE --- */
         #library-page {
             display: none; flex-direction: column; align-items: center;
             animation: fadeIn 0.5s forwards; padding-bottom: 60px; width: 100%; box-sizing: border-box;
@@ -83,7 +77,7 @@
         header {
             width: 100%; padding: 30px 20px 0 20px; display: flex;
             justify-content: space-between; align-items: center; max-width: 800px;
-            margin-bottom: 40px; box-sizing: border-box;
+            margin-bottom: 20px; box-sizing: border-box;
         }
         .back-btn {
             cursor: pointer; font-size: 1.2rem; background: white; width: 45px; height: 45px;
@@ -95,6 +89,19 @@
             background: white; padding: 10px 20px; border-radius: 50px; border: var(--border-thin);
         }
 
+        /* --- ZONE DE PUB (DESIGN PREMIUM) --- */
+        .ad-container {
+            width: 100%; max-width: 728px;
+            margin: 0 auto 30px auto; /* Espace autour */
+            min-height: 90px; /* Hauteur standard */
+            background: rgba(0,0,0,0.03); /* Fond gris discret en attendant la pub */
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; color: #aaa; letter-spacing: 1px; text-transform: uppercase;
+            border: 1px dashed #ddd;
+            overflow: hidden;
+        }
+
         .quotes-list {
             width: 100%; max-width: 800px; padding: 0 20px; box-sizing: border-box;
             display: flex; flex-direction: column; gap: 20px;
@@ -102,8 +109,7 @@
 
         .quote-card {
             background: rgba(255, 255, 255, 0.95); padding: 30px;
-            border-radius: var(--radius-sm);
-            border: var(--border-thin);
+            border-radius: var(--radius-sm); border: var(--border-thin);
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             cursor: pointer; transition: transform 0.2s, background 0.2s;
             position: relative;
@@ -161,6 +167,10 @@
             <span class="cat-icon">🎤</span><span class="cat-name">Rap & Music</span>
         </div>
     </div>
+
+    <div class="ad-container" style="margin-top: 50px;">
+        <span style="opacity: 0.5;">Advertisement</span>
+    </div>
 </div>
 
 <div id="library-page">
@@ -168,6 +178,10 @@
         <button class="back-btn" onclick="goHome()">←</button>
         <div class="page-title" id="current-title">Category</div>
     </header>
+
+    <div class="ad-container">
+        <span style="opacity: 0.5;">Advertisement</span>
+    </div>
 
     <div class="quotes-list" id="quotes-container"></div>
 </div>
